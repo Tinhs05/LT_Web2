@@ -1,10 +1,15 @@
-<!-- File để kết nôi với database -->
 <?php
-if(!defined('_CODE')){
-    die('Access denied...');
-}
+// if(!defined('_CODE')){
+//     die('Access denied...');
+// }
 
-require_once './config.php';
+// require_once('../../config.php');
+// // Connect db
+const _HOST = 'localhost';
+const _DB = 'webbanao';
+const _USER = 'root';
+const _PASS = '';
+
 
 try{
     if(class_exists('PDO')){

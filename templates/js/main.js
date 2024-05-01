@@ -104,26 +104,26 @@ function Message(message, status) {
 var formLogin = document.getElementById('login');
 var formSignup = document.getElementById('signup');
 // Ẩn/hiện mật khẩu
-function showPassword(formID) {
-  var passwordFields = formID.querySelectorAll('input[type="password"]');
-  var showIcon = formID.querySelector('#showIcon');
-  var hideIcon = formID.querySelector('#hideIcon');
+// function showPassword(formID) {
+//   var passwordFields = formID.querySelectorAll('input[type="password"]');
+//   var showIcon = formID.querySelector('#showIcon');
+//   var hideIcon = formID.querySelector('#hideIcon');
 
 
-  showIcon.addEventListener('click', function() {
-    passwordFields.forEach(passwordField => passwordField.type = 'password');
-      showIcon.style.display = 'none';
-      hideIcon.style.display = 'block';
-  });
+//   showIcon.addEventListener('click', function() {
+//     passwordFields.forEach(passwordField => passwordField.type = 'password');
+//       showIcon.style.display = 'none';
+//       hideIcon.style.display = 'block';
+//   });
 
-  hideIcon.addEventListener('click', function() {
-      passwordFields.forEach(passwordField => passwordField.type = 'text');
-      showIcon.style.display = 'block';
-      hideIcon.style.display = 'none';
-  });
-}
-showPassword(formLogin);
-showPassword(formSignup);
+//   hideIcon.addEventListener('click', function() {
+//       passwordFields.forEach(passwordField => passwordField.type = 'text');
+//       showIcon.style.display = 'block';
+//       hideIcon.style.display = 'none';
+//   });
+// }
+// showPassword(formLogin);
+// showPassword(formSignup);
 
 
 
@@ -235,79 +235,79 @@ showPassword(formSignup);
 // )
 
 // Dang nhap
-loginButton.addEventListener('click', () => {
-    event.preventDefault();
-    let emailLog = document.getElementById('emailLogin').value;
-    let passlog = document.getElementById('passwordLogin').value;
-    let accounts = JSON.parse(localStorage.getItem('accounts'));
+// loginButton.addEventListener('click', () => {
+//     event.preventDefault();
+//     let emailLog = document.getElementById('emailLogin').value;
+//     let passlog = document.getElementById('passwordLogin').value;
+//     let accounts = JSON.parse(localStorage.getItem('accounts'));
 
-    if (emailLog.length == 0) {
-        document.querySelector('.message.emaillog').innerHTML = 'Vui lòng nhập vào Email';
-    } else if (!isValidEmail(emailLog)) {
-        document.querySelector('.message.emaillog').innerHTML = 'Vui lòng nhập đúng định đạng email';
-        document.getElementById('passwordLogin').value = '';
-    } else {
-        document.querySelector('.message.emaillog').innerHTML = '';
-    }
+//     if (emailLog.length == 0) {
+//         document.querySelector('.message.emaillog').innerHTML = 'Vui lòng nhập vào Email';
+//     } else if (!isValidEmail(emailLog)) {
+//         document.querySelector('.message.emaillog').innerHTML = 'Vui lòng nhập đúng định đạng email';
+//         document.getElementById('passwordLogin').value = '';
+//     } else {
+//         document.querySelector('.message.emaillog').innerHTML = '';
+//     }
 
-    if (passlog.length == 0) {
-        document.querySelector('.message.passwordlog').innerHTML = 'Vui lòng nhập mật khẩu';
-    } else if (passlog.length < 6) {
-        document.querySelector('.message.passwordlog').innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
-        document.getElementById('passwordlogin').value = '';
-    } else {
-        document.querySelector('.message.passwordlog').innerHTML = '';
-    }
+//     if (passlog.length == 0) {
+//         document.querySelector('.message.passwordlog').innerHTML = 'Vui lòng nhập mật khẩu';
+//     } else if (passlog.length < 6) {
+//         document.querySelector('.message.passwordlog').innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
+//         document.getElementById('passwordlogin').value = '';
+//     } else {
+//         document.querySelector('.message.passwordlog').innerHTML = '';
+//     }
 
-    if (emailLog && passlog) {
-        let vitri = accounts.findIndex(item => item.email == emailLog);
-        if (vitri == -1) {
-            advertise({ title: 'Error', message: 'Tài khoản của bạn không tồn tại', type: 'error', duration: 3000 });
-        } else if (accounts[vitri].password == passlog) {
-            if(accounts[vitri].status == 0) {
-                advertise({ title: 'Warning', message: 'Tài khoản của bạn đã bị ngưng hoạt động', type: 'warning', duration: 3000 });
-            } else {
-                localStorage.setItem('currentUser', JSON.stringify(accounts[vitri]));
-                advertise({ title: 'Success', message: 'Đăng nhập thành công', type: 'success', duration: 3000 });
-                kiemtradangnhap();
-                checkAdmin();
-                updateAmount();
-                emailUserNow = emailLog;
-                showOrder();
-                closeForm();
-            }
-        } else {
-            advertise({ title: 'Warning', message: 'Sai mật khẩu', type: 'warning', duration: 3000 });
-        }
-    }
-})
-function isValidEmail(email) {
-  // Sử dụng biểu thức chính quy để kiểm tra định dạng email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//     if (emailLog && passlog) {
+//         let vitri = accounts.findIndex(item => item.email == emailLog);
+//         if (vitri == -1) {
+//             advertise({ title: 'Error', message: 'Tài khoản của bạn không tồn tại', type: 'error', duration: 3000 });
+//         } else if (accounts[vitri].password == passlog) {
+//             if(accounts[vitri].status == 0) {
+//                 advertise({ title: 'Warning', message: 'Tài khoản của bạn đã bị ngưng hoạt động', type: 'warning', duration: 3000 });
+//             } else {
+//                 localStorage.setItem('currentUser', JSON.stringify(accounts[vitri]));
+//                 advertise({ title: 'Success', message: 'Đăng nhập thành công', type: 'success', duration: 3000 });
+//                 kiemtradangnhap();
+//                 checkAdmin();
+//                 updateAmount();
+//                 emailUserNow = emailLog;
+//                 showOrder();
+//                 closeForm();
+//             }
+//         } else {
+//             advertise({ title: 'Warning', message: 'Sai mật khẩu', type: 'warning', duration: 3000 });
+//         }
+//     }
+// })
+// function isValidEmail(email) {
+//   // Sử dụng biểu thức chính quy để kiểm tra định dạng email
+//   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
-  return emailRegex.test(email);
-}
-function isValidPhoneNumber(phoneNumber) {
-  // Sử dụng biểu thức chính quy để kiểm tra định dạng số điện thoại
-  const phoneRegex = /^[0-9]{10,}$/;
+//   return emailRegex.test(email);
+// }
+// function isValidPhoneNumber(phoneNumber) {
+//   // Sử dụng biểu thức chính quy để kiểm tra định dạng số điện thoại
+//   const phoneRegex = /^[0-9]{10,}$/;
 
-  // Kiểm tra xem số điện thoại có khớp với biểu thức chính quy không
-  return phoneRegex.test(phoneNumber);
-}
+//   // Kiểm tra xem số điện thoại có khớp với biểu thức chính quy không
+//   return phoneRegex.test(phoneNumber);
+// }
 
 
-function kiemtradangnhap() {
-  let currentUser =  JSON.parse(localStorage.getItem('currentUser'));
+// function kiemtradangnhap() {
+//   let currentUser =  JSON.parse(localStorage.getItem('currentUser'));
 
-  if (currentUser != null) {
-      emailUserNow = currentUser.email;
-      showOrder();
-      document.querySelector("#AccountLogin").innerHTML = ` <button onclick="openAccMenu()" class="text-tk"><i class="fa-regular fa-user"></i>${currentUser.fullname}</button>`;
-      document.querySelector('.header-middle-right').innerHTML = `<li><a href="javascript:;" onclick="myAccount()"><i class="fa-light fa-circle-user"></i> Tài khoản của tôi</a></li>
-          <li class="border"><a id="logout" href="javascript:;"><i class="fa-light fa-right-from-bracket"></i>Đăng xuất</a></li>`;
-      document.querySelector('#logout').addEventListener('click',logOut);
-  }
-}
+//   if (currentUser != null) {
+//       emailUserNow = currentUser.email;
+//       showOrder();
+//       document.querySelector("#AccountLogin").innerHTML = ` <button onclick="openAccMenu()" class="text-tk"><i class="fa-regular fa-user"></i>${currentUser.fullname}</button>`;
+//       document.querySelector('.header-middle-right').innerHTML = `<li><a href="javascript:;" onclick="myAccount()"><i class="fa-light fa-circle-user"></i> Tài khoản của tôi</a></li>
+//           <li class="border"><a id="logout" href="javascript:;"><i class="fa-light fa-right-from-bracket"></i>Đăng xuất</a></li>`;
+//       document.querySelector('#logout').addEventListener('click',logOut);
+//   }
+// }
 
 // Đóng mở menu dưới avatar
 function openAccMenu(){
@@ -596,8 +596,8 @@ function renderProducts(showProduct) {
             <article class="card-product" >
                 <div class="card-header">
                     <a href="#" class="card-image-link" onclick="detailProduct(${product.id})">
-                    <img class="card-image" src="${product.img}" alt="${product.title}">
-                    <img class="card-image-hover" src="${product.imghv}" alt="${product.title}">
+                    <img class="card-image" src="./templates/${product.img}" alt="${product.title}">
+                    <img class="card-image-hover" src="./templates/${product.imghv}" alt="${product.title}">
                     </a>
                 </div>
                 <div class="prod-info">
@@ -710,9 +710,9 @@ function detailProduct(id){
 
 
     document.querySelector("#titleprod").textContent = product.title;
-    document.querySelector("#img_main").src = product.img;
-    document.getElementById("idtruoc").src = product.img;
-    document.getElementById("idsau").src = product.imghv;
+    document.querySelector("#img_main").src = "./templates" + product.img;
+    document.getElementById("idtruoc").src = "./templates" +product.img;
+    document.getElementById("idsau").src ="./templates" +product.imghv;
     document.getElementById("newprice").textContent = `${vnd(product.newprice)}`;
     document.getElementById("price").textContent =  `${vnd(product.price)}`;
     document.getElementById("detailDesc").textContent = product.desc;
@@ -870,7 +870,7 @@ function showCart() {
           currentuser.cart.forEach(item => {
               let product = getProduct(item);
               productcarthtml +=`<tr>
-                  <td><div class="cart-img-title"><img class="cart-img-tbl" src="${product.img}" alt=""><p>${product.title}</p></div></td>
+                  <td><div class="cart-img-title"><img class="cart-img-tbl" src="./templates/${product.img}" alt=""><p>${product.title}</p></div></td>
                   <td>${product.category}</td>
                   <td>${item.size}</td>
                   <td>
@@ -1326,7 +1326,7 @@ function showProductCart() {
       let product = getProduct(item);
       listOrderHtml += `<div class="product-total">
     <div class="product-total-left">
-      <div class=""><img class="check-out-img" src="${product.img}" alt=""></div>
+      <div class=""><img class="check-out-img" src="./templates/${product.img}" alt=""></div>
       <div class="info-prod">
           <div class="name-prod">${product.title}</div>
       </div>
@@ -1346,7 +1346,7 @@ function showProductBuyNow(product) {
   let listOrder = document.getElementById("list-order-checkout");
   let listOrderHtml = `<div class="product-total">
     <div class="product-total-left">
-      <div class=""><img class="check-out-img" src="${product.img}" alt=""></div>
+      <div class=""><img class="check-out-img" src="./templates/${product.img}" alt=""></div>
       <div class="info-prod">
           <div class="name-prod">${product.title}</div>
       </div>

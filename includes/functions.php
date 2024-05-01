@@ -1,8 +1,5 @@
-<!-- Chứa các function chung của project -->
 <?php
-if(!defined('_CODE')){
-    die('Access denied...');
-}
+require_once('connect.php');
 
 //Import header-footer
 function layouts($layoutName = 'header'){

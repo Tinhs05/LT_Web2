@@ -501,6 +501,7 @@ body,input,button,textarea,pre {
     display: none;
     background-color: #fff;
     position: relative;
+    width: 100%;
 }
 
 .section.active {
@@ -657,8 +658,8 @@ tbody tr td {
 }
 
 /* Product */
-.product-all {
-    padding: 20px 80px;
+.admin-all {
+    padding: 20px 50px;
 }
 @media (max-width: 700px) {
     .product-all{
@@ -1319,6 +1320,11 @@ label a {
 
 }
 
+#password_confirm{
+    position: relative;
+
+}
+
 .form-eye{
 
     position: absolute;
@@ -1334,6 +1340,14 @@ label a {
     display: none;
 
 
+}
+
+#show_password_confirm{
+    display: none;
+}
+
+#hide_password_confirm{
+    display: block;
 }
 #hidePassword{
     display: block;
@@ -1385,6 +1399,8 @@ label a {
 }
 
 .form-search {
+    /* width: 116%;
+    margin-left: -42px; */
     display: flex;
     justify-content: center;
 }
@@ -1841,6 +1857,7 @@ label a {
     border-radius: 5px;
     font-size: 15px;
     display: inline-block;
+    min-width: 126px;
 }
 
 .status-no-complete {
@@ -1850,6 +1867,17 @@ label a {
     border-radius: 5px;
     font-size: 15px;
     display: inline-block;
+    min-width: 126px;
+}
+
+.status-shipping-complete {
+    background-color: yellowgreen;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    display: inline-block;
+    min-width: 126px;
 }
 
 .btn-chuaxuly {

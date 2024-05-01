@@ -1,8 +1,8 @@
-<!-- Các hàm xử lý liên quan đến CSDL -->
 <?php
-if(!defined('_CODE')){
-    die('Access denied...');
-}
+// if(!defined('_CODE')){
+//     die('Access denied...');
+// }
+require_once('connect.php');
 
 function query($sql, $data=[], $check = false) {
     global $conn;

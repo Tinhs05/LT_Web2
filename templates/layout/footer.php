@@ -5,11 +5,14 @@ if(!defined('_CODE')){
 }
 ?>
 
-
+<div class="footer">
+    <div class="footleft">Thông tin shop</div>
+    
+</div>
     <div id="advertise"></div>
-    <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/main.js"></script>
-    <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/dataprod.js"></script>
-    <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/admin.js"></script> 
+    <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/main.js?ver=<?php echo rand(); ?>"></script>
+    <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/dataprod.js?ver=<?php echo rand(); ?>"></script>
+    <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/admin.js?ver=<?php echo rand(); ?>"></script> 
     <!-- <script src="./templates/js/bootstrap.min.js"></script> -->
     </body>
 </html>
