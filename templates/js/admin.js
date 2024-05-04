@@ -1860,9 +1860,8 @@ let sttUs;
 //     }
 // })
 
-document.getElementById("logout-acc").addEventListener('click', (e) => {
-    e.preventDefault();
-    localStorage.removeItem("currentuser");
-    window.location = "/";
-})
+$('#logout-acc').on('click', function(e){
+        e.preventDefault();
+        window.location.href = "?module=auth&action=login";
+    })
 
