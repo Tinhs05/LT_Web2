@@ -19,8 +19,3 @@ if(!defined('_CODE')){
     <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/jquery-ui.js"></script>
     <title>HALO STORE</title>
 <body >
-
-
-
-
-    
