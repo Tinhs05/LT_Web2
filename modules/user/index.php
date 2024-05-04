@@ -7,8 +7,9 @@
 <!-- Header -->
 <?php
     require_once (_WEB_PATH_TEMPLATES.'/layout/header.php');
+    require_once('product.php');
 ?>
-
+<body>
 <div class="header" > 
         <div class="headbox" id="headbox">
            <!-- <div><picture></picture></div> -->
@@ -19,14 +20,18 @@
                 <form class="headcenter" class="form-search">
                      <span class="search-btn"><i class="fa-light fa-magnifying-glass"></i></span>
                      <input type="text" id="form-search-product" type="text" class="form-search-input inputsearch" placeholder="TÌm kiếm sản phẩm"  onclick="searchform()">
-                     <span class="filter-btn"><i class="fa-light fa-filter-list"></i>Lọc</span>
+                     <span type="button" class="filter-btn"><a href="?module=user&action=filter"><i class="fa-light fa-filter-list"></i>Lọc</a></span>
                 </form>
                 <div class="headerright">
                     <div class="headerright-click ">
                        <div id="AccountLogin">
-                           <button  id="btnAccount"  onclick="showForm()">
-                           <a href="?module=auth&action=login" style="color: #333; text-decoration: none;">Đăng nhập</a>
-                        </button>
+                            <?php
+                                if(isset($_SESSION['user'])){
+                                    echo '<button  id="btnAccount"><a href="?module=auth&action=account-centre" style="color: #333; text-decoration: none;"><i class="fa-regular fa-user" style="margin: 0 10px 0 0"></i>'.$_SESSION['user-Name'].'</a></button>';
+                                }else{
+                                    echo '<button><a href="?module=auth&action=login" style="color: #333; text-decoration: none;">Đăng nhập</a></button>';
+                                }
+                            ?>
                         </div>
                         <div class="header-middle-right-menu">
                             <ul class="header-middle-right">
@@ -37,13 +42,12 @@
                 </div>
         </div>
         <div class="lowmenu">
-                  <div class=""> <button type="button"><i class="fa-regular fa-house"></i><a href="">Trang chủ</a></button></div>
+                  <div class=""> <button type="button"><i class="fa-regular fa-house"></i><a href="?module=user">Trang chủ</a></button></div>
                    <div class=""> <button  onclick="showCategory('Áo sơ mi')">Áo sơ mi</button></div>
                    <div class=""> <button onclick="showCategory('Áo thun')">Áo thun</button></div>
                    <div class=""> <button onclick="showCategory('Áo Khoác')">Áo Khoác</button></div>
                    <div class=""> <button onclick="showCategory('Áo Polo')">Áo Polo</button></div>
                    <div class=""> <button onclick="showCategory('Áo Hoodie')">Áo Hoodie</button></div>
-                   <div class=""> <button onclick="showCategory('Sale')">Sale</button></div>
    
                <!-- </div> -->
         </div>
@@ -69,7 +73,6 @@
                     <div>
                         <button id="filter-price" onclick="filterProductPrice()"><i class="fa-light fa-filter-circle-dollar"></i></button>
                     </div>
-                  
                 </div>
 
                 <div class="advanced-search-control">
@@ -93,6 +96,40 @@
         </div>
         <div class="container-products">     
             <div class="home-products" id="home-products">
+                <?php
+                    $list_product = loadAllProducts();
+                    foreach ($list_product as $p ) {?>
+                        <div class="col-product">
+                            <article class="card-product">
+                                <div class="card-header">
+                                <input type="hidden" class="product-id" value="<?php echo $p["ProductID"];?>">                            
+                                    <a href="#" class="card-image-link">
+                                    <img class="card-image" src="./templates<?php echo $p["Image"];?>" loading="lazy" alt="">
+                                    <img class="card-image-hover" src="./templates<?php echo $p["ImageHV"];?>" loading="lazy" alt="">
+                                    </a>
+                                </div>
+                                <div class="prod-info">
+                                    <div class="card-content">
+                                        <div class="card-title">
+                                            <a href="#" class="card-title-link"><?php echo $p["ProductName"];?></a>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="product-price">
+                                        <span class="current-price"></span>
+                                            <span class="old-price"><?php echo number_format($p["Price"], 0, ',','.');?>&nbsp;₫</span>
+
+                                        </div>
+                                    <div class="product-buy">
+                                        <button class="card-button order-item"><i class="fa-regular fa-cart-shopping-fast"></i>Xem sản phẩm</button>
+                                    </div> 
+                                </div>
+                                </div>
+                            </article>
+                        </div>
+                <?php
+                    }
+                ?>
             </div>
             <div class="page-nav">
                 <ul class="page-nav-list">
@@ -101,77 +138,7 @@
          </div>
         
     </div>
-
-   
-    <div id="div_detail" >
-        <div class="detail">
-            <button class="close_detail" onclick="closedetail()">+</button>
-       <div class="title-container">
-        <h1 class="title" id="titleprod"> Tên Áo</h1>
-      </div>
-      <div class="detail-container">
-        <div class="img-container">
-          <img src="" alt="" id="img_main">
-          <div class="swap-img-container">
-              <img class="idtruoc" id="idtruoc" onclick="swap_img(this)"/>
-              <img class="idsau" id="idsau" src=""  onclick="swap_img(this)"/>
-          </div>
-        </div>
-        <div class="detail-content">
-          <div class="div_type">
-            <span class="type">Phân loại:</span>
-            <span class="nametype" id="nametype"></span>
-          </div>
-          <div class="div_price">
-            <h1 class="newprice" id="newprice"></h1>
-            <h1 class="price" id="price"></h1>
-
-          </div>
-          <div id ="list-size" class= "list-size">
-           <ul class="btn-sizes">
-              <li class="list-btn-size row-size active">
-                  <span class="icon-out iconszS" id="iconszS"><i class="fa-thin fa-xmark-large"></i></span>
-                  <button type = "button" class="btn-size btns" id="btns">S</button>           
-              </li>
-              <li class="list-btn-size row-size ">
-                  <span class="icon-out iconszM" id="iconszM"><i class="fa-thin fa-xmark-large"></i></span>
-                  <button type = "button" class="btn-size btnm" id="btnm" >M</button>
-                 
-              </li>
-              <li class="list-btn-size row-size">
-                  <span class="icon-out" id="iconszL"><i class="fa-thin fa-xmark-large"></i></span>
-                  <button type = "button" class="btn-size btnl" id="btnl" >L</button>
-                
-              </li>
-              <li class="list-btn-size row-size">
-                  <span class="icon-out" id="iconszXL"><i class="fa-thin fa-xmark-large"></i></span>
-                  <button type = "button" class="btn-size bntxl" id="btnxl" >XL</button>
-              
-              </li>
-          </ul>
-       </div>
-          <div id="table-size"> 
-          <span class="btn-img-size" onclick="showTbSize()">Tham khảo bảng size</span>
-          </div>
-          <div id="div_quantity">
-          <span class="lb-quantity">Số lượng:</span>
-            <button class="quantity" id="quantity-down" onclick="handleMinus()">-</button>
-            <input id="amount" class="input-qty" name="amount" type="" value="1">
-            <button class="quantity " id="quantity-up" onclick="handlePlus()">+</button>
-          </div> 
-           
-          <div class="div_describe"> 
-          <span class="lb-describe">Mô tả sản phẩm:</span>
-          <h5 id="detailDesc"></h5>
-           </div>
-           <div class="box-ctl"> 
-                <button class="div_cart" id="btnAddCart" >THÊM VÀO GIỎ HÀNG</button>
-                <button class="div_buy" >MUA NGAY</button>
-           </div>
-          </div>
-      </div>
-        </div>
-    </div>
+    <div id="div_detail" ></div>
     <div id="show-imgSize">
         <div class="modal-img">
             <button type="button" id="img-size-close"><i class="fa-regular fa-xmark"></i></button>
@@ -181,93 +148,6 @@
         </div>
     </div>
 
-
-    <div class="account-container">
-      <div class="account-box">
-        <div class="account-menu">
-          <h3>Tài khoản</h3>
-          <ul>
-            <li class="sidebar-list-item active"><a href="#"  >Thông tin tài khoản</a></li>
-            <li class="sidebar-list-item"><a href="#"  >Lịch sử mua hàng</a></li>
-            <li class="sidebar-list-item"><a href="#"  >Đổi mật khẩu</a></li>
-          </ul>
-        </div>
-        <div class="account-wrapper">
-            <div class="account-content  active " id="account-info">
-                <h3>Thông tin cá nhân</h3>
-                <ul>
-                  <li>
-                    <label>Họ tên</label>
-                    <input type="text" id="name" />
-                  </li>
-                  <li>
-                    <label>Email</label>
-                    <input type="email" id="email" />
-                  </li>
-
-                  <li>
-                    <label>Số điện thoại</label>
-                    <input type="tel" id="phone" />
-                  </li>
-                  <li>
-                    <label>Địa chỉ</label>
-                    <input type="text" id="address" />
-                  </li>
-                  <li>
-                    <button onclick="updateAccountInfo()">Cập nhật thông tin tài khoản</button>
-                  </li>
-                </ul>
-              </div>              
-          
-            <div class="account-content" id="order-history">
-              <h3>Lịch sử mua hàng</h3>
-               <div class="table">
-              <table>
-                <thead>
-                  <tr>
-                    <td>Mã đơn hàng</td>
-                    <td>Tên người nhận</td>
-                    <td>Ngày mua</td>
-                    <td>Tổng tiền</td>
-                    <td>Trạng thái</td>
-                    <td>Chi tiết</td>
-                  </tr>
-                </thead>
-                <tbody id="showOrder">
-                </tbody>
-              </table>
-            </div>
-            </div>
-          
-            <div class="account-content" id="change-password">
-              <h3>Đổi mật khẩu</h3>
-              <form action="/account/change-password" method="post" id="changePass-form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-group">
-                    <label for="old_password">Mật khẩu hiện tại</label>   
-                    <input type="password" name="old_password" id="old_password" class="form-control" required />
-                    <span class="message"></span>
-                    </div>  
-                    <div
-                    class="form-group">  
-                    <label
-                    for="new_password">Mật khẩu mới</label>
-                    <input type="password" name="new_password" id="new_password" class="form-control" required/>
-                    <span class="message"></span>
-                    </div>     
-                    <div
-                    class="form-group">
-                    <label for="confirm_password">Xác nhận mật khẩu mới</label>     
-                    <input type="password" name="confirm_password" id="confirm_password" class="form-control" required/>
-                    <span class="message"></span>      
-                    </div>      
-                <button type="submit" class="btn btn-primary">Xác nhận</button>
-              </form>
-            </div>
-        </div>
-        <div class="exit-account-container" onclick="toggleAccountContainer()">Thoát</div>
-      </div>
-    </div>
     <div class="detail-order">
         <div class="modal-container">
             <h3 class="modal-container-title">CHI TIẾT ĐƠN HÀNG</h3>
@@ -292,15 +172,13 @@
                     <div class ="cart-left">
                         <table>
                             <thead>
-                              <tr>
-                                <td>Sản phẩm</td>
-                                <td>Phân loại</td>
-                                <td>Size</td>
-                                <td>Giá</td>
-                                <td>Số lượng</td>
-                                <td>Tạm tính</td>
-                                <td>Tùy chọn</td>
-                               </tr>
+                                <tr>
+                                    <td>Sản phẩm</td>
+                                    <td>Phân loại</td>
+                                    <td>Giá</td>
+                                    <td>Số lượng</td>
+                                    <td>Tùy chọn</td>
+                                </tr>
                             </thead>
                             <tbody id="showProdCart">
                             </tbody>
@@ -316,11 +194,11 @@
                         <div>
                             <form class="list-ship" id="radioForm">
                                 <div>
-                                    <input type="radio" name="shippingOption" class="shippingOption" value="20000" >
+                                    <input type="radio" name="shippingOption" class="shippingOption" value="20000" checked>
                                     <label for="" id="transport-fee"></label>
                                 </div>
                                 <div>
-                                    <input type="radio" name="shippingOption" class="shippingOption" value="30000" checked>
+                                    <input type="radio" name="shippingOption" class="shippingOption" value="30000" >
                                     <label for="" id="speed-ship"></label>
                                 </div>
                             </form>
@@ -354,103 +232,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="checkout-page">
-        <div class="checkout-header">
-            <div class="checkout-return">
-                <button onclick="closecheckout()"><i class="fa-regular fa-chevron-left"></i></button>
-            </div>
-            <h2 class="checkout-title">Thanh toán</h2>
-        </div>
-        <main class="checkout-section container">
-            <div class="checkout-col-left">
-                <div class="checkout-row">
-                    <div class="checkout-col-title">
-                        Thông tin người nhận
-                    </div>
-                    <div class="checkout-col-content">
-                        <div class="content-group">
-                            <form action="" class="info-nhan-hang">
-                                <div class="form-group">
-                                    <label for="">Họ và tên</label>
-                                    <input id="tennguoinhan" name="tennguoinhan" type="text"
-                                        placeholder="Tên người nhận" class="form-control">
-                                    <span class="form-message"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Số điện thoại</label>
-                                    <input id="sdtnhan" name="sdtnhan" type="text" placeholder="Số điện thoại nhận hàng"
-                                        class="form-control">
-                                    <span class="form-message"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Tỉnh/Thành Phố</label>
-                                    <select name="" id="selectProvinceBill" class="formProvinces">
-                                        <option value="">Chọn tỉnh/thành phố</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Địa chỉ chi tiết</label>
-                                    <input id="diachinhan" name="diachinhan" type="text" placeholder="Địa chỉ nhận hàng"
-                                        class="form-control chk-ship">
-                                    <span class="form-message"></span>
-                                </div>
-                                <div class="form-group">
-                                    <p class="checkout-content-label">Ghi chú đơn hàng</p>
-                                    <textarea type="text" class="note-order" placeholder="Nhập ghi chú"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>            
-            </div>
-            <div class="checkout-col-right">
-                <div class="checkout-col-right-head">
-                    <p class="checkout-content-label">Đơn hàng</p>
-                    <p class="checkout-content-label">Tạm tính</p>
-                </div>
-                <div class="bill-total" id="list-order-checkout">
-                </div>
-                <div class="bill-payment">
-                    <div class="total-bill-order">
-                        <div class="priceFlx">
-                            <div class="text">
-                                 Tạm tính
-                            </div>
-                            <div class="price-detail">
-                                <span id="checkout-cart-total"></span>
-                            </div>
-                        </div>
-                        <div class="priceFlx chk-ship">
-                        <form class="list-ship" id="radioFormShip">
-                           <div>
-                              <input type="radio" name="shippingOps" class="shippingOps" value="20000" >
-                              <label for="" id="transport-fee-bill"></label>
-                          </div>
-                          <div>
-                              <input type="radio" name="shippingOps" class="shippingOps" value="30000" checked>
-                              <label for="" id="speed-ship-bill"></label>
-                          </div>
-                        </form>
-                        </div>
-                    </div>
-                    <div class="policy-note">
-                        Bằng việc bấm vào nút “Đặt hàng”, tôi đồng ý với
-                        <a href="#" target="_blank">chính sách hoạt động</a>
-                        của chúng tôi.
-                    </div>
-                </div>
-                <div class="total-checkout">
-                    <div class="text">Tổng tiền</div>
-                    <div class="price-bill">
-                        <div class="price-final" id="checkout-cart-price-final">0</div>
-                    </div>
-                </div>
-                <button class="complete-checkout-btn">Đặt hàng</button>
-            </div>
-        </main>
-    </div>     
-     
+    </div> 
+    <div id="advertise"></div>  
+</body>
     
 <!-- Footer -->
 <div class="footer">

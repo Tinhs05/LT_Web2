@@ -25,15 +25,6 @@ $data = [
     'status' => $status,
 ];
 
-// insert('customer', $data);
-// update('customer', $data, 'fullName = "root"');
-// delete('customer', 'customerid = 1013');    
-// $result = getOneRow('SELECT * FROM customer');
-
-// echo '<pre>';
-// print_r($result);
-// echo '</pre>';
-// echo countRows('SELECT * FROM customer');
 
 if(isPost()){
     $filterAll = filter();
@@ -101,7 +92,7 @@ if(isPost()){
     require_once (_WEB_PATH_TEMPLATES.'/layout/header.php');
 ?>
 
-<div id="modal">
+<div class="modal-account">
     <!-- Đăng ký -->
     <div id="signup">
         <form action="" method="post" id="signup-form">
@@ -136,10 +127,6 @@ if(isPost()){
                 <div class="datasignup">
                     <label for="password">Mật khẩu</label>
                     <input name="password" type="password" placeholder="Mật khẩu" id="passwordSignUp">
-                    <div class="showpass">
-                        <img src="./templates/assets/image/showPass.png" alt="" id="showIcon">
-                        <img src="./templates/assets/image/hidenPass.png" alt="" id="hideIcon">
-                    </div>
                     <?php echo empty($errors['password']['required']) ? '':'<p class="message passwordSign" style="color: red;font-size: 12px;margin-top: -7px;margin-left: 176px;">'.$errors['password']['required'].'</p>' ?>
                     <?php echo empty($errors['password']['min_length']) ? '':'<p class="message passwordSign" style="color: red;font-size: 12px;margin-top: -7px;margin-left: 176px;">'.$errors['password']['min_length'].'</p>' ?>
                 </div>

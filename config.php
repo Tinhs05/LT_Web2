@@ -1,4 +1,3 @@
-<!-- Chứa các hằng số cố định của project -->
 <?php
 
 const _MODULE = 'user';

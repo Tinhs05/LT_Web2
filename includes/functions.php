@@ -1,4 +1,3 @@
-<!-- Chứa các function chung của project -->
 <?php
 if(!defined('_CODE')){
     die('Access denied...');

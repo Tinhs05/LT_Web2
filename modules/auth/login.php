@@ -1,61 +1,74 @@
 <!-- Đăng nhập tài khoản -->
 <?php
-if(!defined('_CODE')){
-    die('Access denied...');
-}
+ob_start();
 // <!-- Header -->
 require_once (_WEB_PATH_TEMPLATES.'/layout/header.php');
+require_once('./includes/connect.php');
 
-$password = '1234556';
-// $md5 = md5($password);
-// $sha1 = sha1($password);
-// echo $md5;
-// echo '<br>'.$sha1;
+// <!-- Hàm xử lý -->
+function get_user_info($conn, $user,$pass){
+    try {
+    $sql = "SELECT * FROM customer WHERE Email='".$user."' AND PassWord='".$pass."' AND Status='1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $resuilt = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
-// echo $passwordHash;
+    echo print_r($resuilt);
+    } catch (Exception $e) {
+        echo "Lỗi: " . $e->getMessage();
+    }finally{
+        $conn = null;
+    }
 
-$checkPass = password_verify('1234556', $passwordHash);
-var_dump($checkPass);
+    return $resuilt;
+}
+// <!-- Controller -->
+    if((isset($_POST['dangnhap'])) && ($_POST['dangnhap'])){
+        $user = $_POST['email'];
+        $pass = $_POST['password'];
+        $kq = get_user_info($conn, $user, $pass);
+
+        if(!empty($kq)){
+            if($kq['UserType']==1) header('location: ?module=admin&action=manager');
+            else{
+                $_SESSION['user']=$user;
+                $_SESSION['user-id']= $kq['CustomerID'];
+                $_SESSION['user-Name']= $kq['FullName'];
+                header('location: ?module=user');
+            }
+        }else{
+            echo 'Tài khoản hoặc mật khẩu không đúng';
+        }
+    }
 
 ?>
 
-
-<div id="modal">
+<!-- HTML -->
+<div class="modal-account">
     <div id="login">
-        <form action="" method="post" id="login-form">
+        <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" id="login-form">
             <div class="header-login">
                 <h1 id="title__signin">ĐĂNG NHẬP</h1>
-                <button type="button" class="btnclose" onclick="closeForm()"><a href="?module=user" style="font-size: 48px">+</a></button>
+                <button type="button" class="btnclose"><a href="?module=user" style="font-size: 48px">+</a></button>
             </div>
 
             <div class="bodylogin">
                 <div class="datalogin">
-                    <label for="Email"><img src="./templates/assets/image/username.png"></label>
-                    <input name="email" type="text" placeholder="Email" id="emailLogin">
+                    <label for="email"><img src="./templates/assets/image/username.png"></label>
+                    <input name="email" type="email" placeholder="Email" id="emailLogin" required>
                     <span class="message emaillog"></span>
                 </div>
                 <div class="datalogin">
                     <label for="password"><img src="./templates/assets/image/password.png"></label>
-                    <input name="password" type="password" placeholder="Mật khẩu" id="passwordLogin">
-                    <div class="showpass">
-                        <img src="./templates/assets/image/showPass.png" alt="" id="showIcon">
-                        <img src="./templates/assets/image/hidenPass.png" alt="" id="hideIcon">
-                    </div>
+                    <input name="password" type="password" placeholder="Mật khẩu" id="passwordLogin" required>
                     <span class="message passwordlog"></span>
                 </div>
             </div>
             <div class="footlogin">
-                <button type="submit" id="btnlogin">
-                <a href="" style="color: white; text-decoration: none;">Đăng nhập</a>
-                </button>
-                <p>Bạn chưa có tài khoản?<a href="?module=auth&action=register" onclick="showSignupForm()">Đăng kí</a></p>
+                <input type="submit" id="btnlogin" name="dangnhap" value="Đăng nhập">
+                <p>Bạn chưa có tài khoản?<a href="?module=auth&action=register">Đăng kí</a></p>
             </div>
         </form>
     </div>
 </div>
-
-<!-- Footer -->
-<?php 
-    require_once (_WEB_PATH_TEMPLATES.'/layout/footer.php');
-?>
+<!-- Script -->
