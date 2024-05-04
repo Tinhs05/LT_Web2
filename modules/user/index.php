@@ -237,10 +237,7 @@
 </body>
     
 <!-- Footer -->
-<div class="footer">
-    <div class="footleft">Thông tin shop</div>
-    
-</div>
+
 <?php 
     require_once (_WEB_PATH_TEMPLATES.'/layout/footer.php');
 ?>

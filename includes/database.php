@@ -1,7 +1,8 @@
 <?php
-if(!defined('_CODE')){
-    die('Access denied...');
-}
+// if(!defined('_CODE')){
+//     die('Access denied...');
+// }
+require_once('connect.php');
 
 require_once("config.php");
 

@@ -799,7 +799,7 @@ function showProductBuyNow(product) {
   let listOrder = document.getElementById("list-order-checkout");
   let listOrderHtml = `<div class="product-total">
     <div class="product-total-left">
-      <div class=""><img class="check-out-img" src="${product.img}" alt=""></div>
+      <div class=""><img class="check-out-img" src="./templates/${product.img}" alt=""></div>
       <div class="info-prod">
           <div class="name-prod">${product.title}</div>
       </div>
