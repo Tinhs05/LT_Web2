@@ -96,3 +96,10 @@ if(!defined('_CODE')){
                 </ul>
             </div>
         </aside>
+<script>
+    $('#logout-acc').on('click', function(e){
+        e.preventDefault();
+        <?php session_destroy(); ?>
+        window.location.href = "?module=auth&action=login";
+    })
+</script>

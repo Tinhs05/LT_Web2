@@ -26,6 +26,13 @@ function get_user_info($conn, $user,$pass){
     if((isset($_POST['dangnhap'])) && ($_POST['dangnhap'])){
         $user = $_POST['email'];
         $pass = $_POST['password'];
+        if ($user == "root" && empty($pass)) {
+            // Gán tên người dùng là "Admin"
+            $_SESSION['user-Name'] = 'Admin';
+            // Chuyển hướng trang admin
+            header('location: ?module=admin');
+            exit(); // Kết thúc kịch bản để tránh thực hiện các lệnh khác
+        }
         $kq = get_user_info($conn, $user, $pass);
 
         if(!empty($kq)){
@@ -83,7 +90,6 @@ function get_user_info($conn, $user,$pass){
         var tk = $("#tai-khoan").val();
         var mk = $("#mat-khau").val();
         if(tk=="root"&&mk==""){
-            <?php $_SESSION['user-Name'] = 'Admin'; ?>;
             window.location.href = "?module=admin";
         }
     })

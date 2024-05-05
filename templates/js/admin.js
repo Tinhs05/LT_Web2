@@ -1860,8 +1860,3 @@ let sttUs;
 //     }
 // })
 
-$('#logout-acc').on('click', function(e){
-        e.preventDefault();
-        window.location.href = "?module=auth&action=login";
-    })
-
