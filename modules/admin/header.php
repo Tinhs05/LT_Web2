@@ -39,12 +39,12 @@ if(!defined('_CODE')){
             </div>
             <div class="middle-sidebar">
                 <ul class="sidebar-list">
-                    <li class="sidebar-list-item user-logout">
+                    <!-- <li class="sidebar-list-item user-logout">
                         <a href="?module=admin" class="sidebar-link">
                             <div class="sidebar-icon"><i class="fa-light fa-turn-down-left"></i></div>
                             <div class="hidden-sidebar">Cửa hàng</div>
                         </a>
-                    </li>
+                    </li> -->
                    
                     <!-- <li class="sidebar-list-item tab-content ">
                         <a href="#" class="sidebar-link">
@@ -84,11 +84,11 @@ if(!defined('_CODE')){
                     <li class="sidebar-list-item user-logout">
                         <a href="#" class="sidebar-link">
                             <div class="sidebar-icon"><i class="fa-light fa-circle-user"></i></div>
-                            <div class="hidden-sidebar" id="name-acc"><?php echo $_SESSION['user-Name'];?></div>
+                            <div class="hidden-sidebar" id="name-acc">Quản trị viên</div>
                         </a>
                     </li>
-                    <li class="sidebar-list-item user-logout">
-                        <a href="#" class="sidebar-link" id="logout-acc">
+                    <li class="sidebar-list-item user-logout" id="logout">
+                        <a href="" class="sidebar-link" id="logout-acc">
                             <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
                             <div class="hidden-sidebar">Đăng xuất</div>
                         </a>
@@ -97,7 +97,7 @@ if(!defined('_CODE')){
             </div>
         </aside>
 <script>
-    $('#logout-acc').on('click', function(e){
+    $('#logout').on('click', function(e){
         e.preventDefault();
         <?php session_destroy(); ?>
         window.location.href = "?module=auth&action=login";

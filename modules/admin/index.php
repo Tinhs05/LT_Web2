@@ -115,41 +115,7 @@ require_once('header.php');
     </div> -->
     <!-- modal add-product -->
     <!-- modal detail-order -->
-    <div class="modal detail-order">
-        <div class="modal-container">
-            <h3 class="modal-container-title">CHI TIẾT ĐƠN HÀNG</h3>
-            <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
-            <div class="modal-detail-order">
-            </div>
-            <div class="modal-detail-bottom">               
-            </div>
-            </form>
-        </div>
-    </div>
-    <div class="modal detail-order-product">
-
-        <div class="modal-container">
-            <h2>THỐNG KÊ CHI TIẾT</h2>
-            <button class="modal-close"><i class="fa-regular fa-xmark"></i></button>
-            <div class="table">
-                <table width="100%">
-                    <thead>
-                        <tr>
-                            <td>Mã đơn</td>
-                            <td>Tên áo</td>
-                            <td>Size</td>
-                            <td>Số lượng</td>
-                            <td>Đơn giá</td>
-                            <td>Ngày đặt</td>
-                        </tr>
-                    </thead>
-                    <tbody id="show-product-order-detail">
-                    </tbody>
-                </table>
-            </div>
-            </form>
-        </div>
-    </div>
+    
 
     <!-- Add or Edit Users -->
     <!-- <div class="modal signup">
