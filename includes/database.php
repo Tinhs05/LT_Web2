@@ -4,7 +4,7 @@
 // }
 require_once('connect.php');
 
-require_once("config.php");
+// require_once("config.php");
 
 // Hàm query
 function query($sql, $data=[], $check = false) {

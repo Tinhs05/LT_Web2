@@ -380,7 +380,7 @@ function loadData($listProduct) {
             success: function(response) {
                 if(response === 'Đã ẩn sản phẩm ở trang bán hàng'){
                     alert('Đã ẩn sản phẩm ở trang bán hàng');
-                    window.location.href = '?module=admin';
+                    window.location.reload();
                 } else{
 
                     if (response === 'Sản phẩm này chưa được bán ra'){
@@ -391,7 +391,7 @@ function loadData($listProduct) {
                                 data: { id: id},
                                 success: function(response) {
                                     alert(response);
-                                    window.location.href = '?module=admin';
+                                    window.location.reload();
                                 },
                                 error: function() {
                                     alert('Có lỗi kết nối đến server !');
@@ -400,6 +400,25 @@ function loadData($listProduct) {
                         };
                     }
                 } 
+            },
+            error: function() {
+                alert('Có lỗi kết nối đến server !');
+            }
+        });
+    }
+
+    function changeStatusProduct(id) {
+        $.ajax({
+            url: '/LT_Web2/modules/admin/changeProductStatus.php',
+            type: 'POST',
+            data: { id: id },
+            success: function(response) {
+                if(response === 'Đã hiển thị sản phẩm lên trang bán hàng.'){
+                    alert('Đã hiển thị sản phẩm lên trang bán hàng.');
+                    window.location.reload();
+                } else {
+                    alert('Không thể hiển thị sản phẩm lên trang bán hàng.');
+                }
             },
             error: function() {
                 alert('Có lỗi kết nối đến server !');

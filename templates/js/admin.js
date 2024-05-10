@@ -96,17 +96,17 @@ function vnd(price) {
     return "";
 }
 // Phân trang 
-let perPage = 10;
-let currentPage = 1;
-let totalPage = 0;
-let perProducts = [];
+// let perPage = 10;
+// let currentPage = 1;
+// let totalPage = 0;
+// let perProducts = [];
 
-function displayList(productAll, perPage, currentPage) {
-    let start = (currentPage - 1) * perPage;
-    let end = (currentPage - 1) * perPage + perPage;
-    let productShow = productAll.slice(start, end);
-    showProductArr(productShow);
-}
+// function displayList(productAll, perPage, currentPage) {
+//     let start = (currentPage - 1) * perPage;
+//     let end = (currentPage - 1) * perPage + perPage;
+//     let productShow = productAll.slice(start, end);
+//     showProductArr(productShow);
+// }
 
 // function setupPagination(productAll, perPage) {
 //     document.querySelector('.page-nav-list').innerHTML = '';
@@ -136,72 +136,72 @@ function displayList(productAll, perPage, currentPage) {
 
 // Hiển thị danh sách sản phẩm 
 let sL ;
-function showProductArr(arr) {
-    let productHtml = "";
-    if(arr.length == 0) {
+// function showProductArr(arr) {
+//     let productHtml = "";
+//     if(arr.length == 0) {
      
-        productHtml = `<div class="no-result"><div class="no-result-i"><i class="fa-light fa-circle-exclamation"></i></div><div class="no-result-h">Không có sản phẩm để hiển thị</div></div>`;
-    } else {
-        arr.forEach(product => {
-            let totalQuantity = parseInt(product.sizeS) + parseInt(product.sizeM) + parseInt(product.sizeL) + parseInt(product.sizeXL);
-            let btnCtl = product.status == 1 ? 
-            `<button class="btn-delete" onclick="deleteProduct(${product.id})"><i class="fa-regular fa-trash"></i></button>` :
-            `<button class="btn-delete" onclick="changeStatusProduct(${product.id})"><i class="fa-light fa-square-plus"></i></button>`;
+//         productHtml = `<div class="no-result"><div class="no-result-i"><i class="fa-light fa-circle-exclamation"></i></div><div class="no-result-h">Không có sản phẩm để hiển thị</div></div>`;
+//     } else {
+//         arr.forEach(product => {
+//             let totalQuantity = parseInt(product.sizeS) + parseInt(product.sizeM) + parseInt(product.sizeL) + parseInt(product.sizeXL);
+//             let btnCtl = product.status == 1 ? 
+//             `<button class="btn-delete" onclick="deleteProduct(${product.id})"><i class="fa-regular fa-trash"></i></button>` :
+//             `<button class="btn-delete" onclick="changeStatusProduct(${product.id})"><i class="fa-light fa-square-plus"></i></button>`;
             
-            productHtml += `
-            <div class="list">
-                    <div class="list-left">
-                    <img src="./templates/${product.img}" alt="">
-                    <div class="list-info">
-                        <h4>${product.title.toUpperCase()}</h4>
+//             productHtml += `
+//             <div class="list">
+//                     <div class="list-left">
+//                     <img src="./templates/${product.img}" alt="">
+//                     <div class="list-info">
+//                         <h4>${product.title.toUpperCase()}</h4>
 
-                        <span class="list-category">${product.category}</span>
-                        <div id ="list-quantity" class= "list-quantity">
-                               <label for="quantity" class="form-label-quantity">Số lượng</label>
-                               <span class="quantity-prd" id="uantity-prd">${totalQuantity}</span>
-                            <span class="form-message"></span>
-                        </div>
-                        <p class="list-note">${product.desc}</p>
+//                         <span class="list-category">${product.category}</span>
+//                         <div id ="list-quantity" class= "list-quantity">
+//                                <label for="quantity" class="form-label-quantity">Số lượng</label>
+//                                <span class="quantity-prd" id="uantity-prd">${totalQuantity}</span>
+//                             <span class="form-message"></span>
+//                         </div>
+//                         <p class="list-note">${product.desc}</p>
                     
-                    </div>
-                    </div>
-                <div class="list-right">
-                    <div class="list-price">
-                    <span class="list-old-price"> ${vnd(product.price)}</span>               
-                    <span class="list-current-price">${vnd(product.newprice)}</span>     
-                    </div>
-                    <div class="list-control">
-                    <div class="list-tool">
-                        <button class="btn-edit" onclick="editProduct(${product.id})"><i class="fa-light fa-pen-to-square"></i></button>
-                        ${btnCtl}
-                    </div>  
+//                     </div>
+//                     </div>
+//                 <div class="list-right">
+//                     <div class="list-price">
+//                     <span class="list-old-price"> ${vnd(product.price)}</span>               
+//                     <span class="list-current-price">${vnd(product.newprice)}</span>     
+//                     </div>
+//                     <div class="list-control">
+//                     <div class="list-tool">
+//                         <button class="btn-edit" onclick="editProduct(${product.id})"><i class="fa-light fa-pen-to-square"></i></button>
+//                         ${btnCtl}
+//                     </div>  
                                        
-                </div>
-                <div class="rate">
-                <i id="star1" class="fa-solid fa-star"></i> 
-                <i id="star2" class="fa-solid fa-star"></i> 
-                <i id="star3" class="fa-solid fa-star"></i> 
-                <i id="star4" class="fa-solid fa-star"></i> 
-                <i id="star5" class="fa-solid fa-star"></i> 
-                </div>
-                </div> 
-            </div>`;
+//                 </div>
+//                 <div class="rate">
+//                 <i id="star1" class="fa-solid fa-star"></i> 
+//                 <i id="star2" class="fa-solid fa-star"></i> 
+//                 <i id="star3" class="fa-solid fa-star"></i> 
+//                 <i id="star4" class="fa-solid fa-star"></i> 
+//                 <i id="star5" class="fa-solid fa-star"></i> 
+//                 </div>
+//                 </div> 
+//             </div>`;
            
-        });
-    }
+//         });
+//     }
     
-    document.getElementById("show-product").innerHTML = productHtml;
+//     document.getElementById("show-product").innerHTML = productHtml;
 
-    const currentPrice = document.querySelectorAll(".list-current-price");
-    const oldPrice = document.querySelectorAll(".list-old-price");
-    for (let i = 0; i < oldPrice.length; i++) {
-    if(currentPrice[i].textContent != ""){
-    oldPrice[i].classList.add("active");
+//     const currentPrice = document.querySelectorAll(".list-current-price");
+//     const oldPrice = document.querySelectorAll(".list-old-price");
+//     for (let i = 0; i < oldPrice.length; i++) {
+//     if(currentPrice[i].textContent != ""){
+//     oldPrice[i].classList.add("active");
 
-      }
-    }
+//       }
+//     }
 
-}
+// }
 
 
 
@@ -1462,15 +1462,7 @@ function togglePasswordConfirm() {
     }
 }
 
-function openCreateAccount() {
-    document.querySelector(".signup").classList.add("open");
-    document.querySelectorAll(".edit-account-e").forEach(item => {
-        item.style.display = "none"
-    })
-    document.querySelectorAll(".add-account-e").forEach(item => {
-        item.style.display = "block"
-    })
-}
+
 
 // function signUpFormReset() {
 //     document.getElementById('fullname').value = ""
@@ -1859,4 +1851,10 @@ let sttUs;
 //             signUpFormReset();
 //     }
 // })
+
+document.getElementById("logout-acc").addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.removeItem("currentuser");
+    window.location = "/";
+})
 
