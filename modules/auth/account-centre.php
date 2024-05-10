@@ -1,5 +1,6 @@
 <?php
-    require_once (_WEB_PATH_TEMPLATES.'/layout/header.php');
+require_once(_WEB_PATH_TEMPLATES . '/layout/header.php');
+require_once("./includes/connect.php");
 ?>
 
 <div class="account-centre-container">
@@ -28,27 +29,30 @@
     </div>
     <div class="content-acc-centre">
         <?php
-            require_once("order-status.php");
+        require_once("./modules/auth/order-status.php");
         ?>
     </div>
 </div>
 <!-- Script -->
 <script>
-    $('#btn-don-hang').on('click', function(){
-        $('.menu-items-acc-centre').css
-        $('#btn-don-hang')
-        $.post("?module=auth&action=order-status", {}, function(data){
-            $('.content-acc-centre').html(data);
+    $(document).ready(function() {
+        // Account Center
+        $('#btn-don-hang').on('click', function() {
+            $('.content-acc-centre').html("");
+            $.post("?module=auth&action=order-status", {}, function(data) {
+                $('.content-acc-centre').html(data);
+            })
         })
-    })
 
-    $('#btn-close-acc-center').on('click', function(e){
-        $('.modal-account').css("display", "none");
-    })
-
-    $('#btn-tai-khoan').on('click', function(){
-        $.post("?module=auth&action=account-info", {}, function(data){
-            $('.content-acc-centre').html(data);
+        $('#btn-close-acc-center').on('click', function(e) {
+            $('.modal-account').css("display", "none");
         })
-    })
+
+        $('#btn-tai-khoan').on('click', function() {
+            $('.content-acc-centre').html("");
+            $.post("?module=auth&action=account-info", {}, function(data) {
+                $('.content-acc-centre').html(data);
+            })
+        })
+    });
 </script>

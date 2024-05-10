@@ -16,7 +16,6 @@ if(isset($_POST['id'])) {
         echo 'Đã ẩn sản phẩm ở trang bán hàng';
     } else {
         echo 'Sản phẩm này chưa được bán ra';
-        
     }
 
     

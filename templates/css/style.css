@@ -1235,6 +1235,7 @@ button {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    overflow: auto;
 }
 
 .order-acc-centre h1{
@@ -1285,7 +1286,7 @@ button {
     height: 120px;
     width: 80%;
     margin: 20px 100px ;
-    background-color: #c7c5c5;
+    background-color: #c7c5c554;
     border-radius: 5px;
 }
 .order-bill img{
@@ -1319,15 +1320,14 @@ button {
 .order-bill .status div{
     position: absolute;
     display: flex;
-    background-color: #ffee90;
-    color: rgb(57, 56, 56);
+    color: white;
     height: 40px;
     width: 120px;
     font-size: 16px;
     align-items: center;
     justify-content: center;
     border-radius: 7px;
-    cursor: none;
+    cursor: default;
 }
 .cancel-order{
     position: relative;
@@ -1341,6 +1341,64 @@ button {
 .cancel-order:hover{
     color: #ff3333;
     text-shadow: 1px 1px 5px #000000b0;
+}
+
+.detail-order-status-modal{
+    position: fixed;
+    display: flex;
+    top: 0 ;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #262424da;
+    z-index: 1;
+    animation: fadeIn 0.35s ease-in;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-order-status-modal .container {
+    position: relative; 
+    display: flex;
+    height: 80%;
+    width: 60%;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    justify-content: center;
+}
+
+.btn-close-detail-order-status{
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 50px;
+    rotate: 45deg;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-shadow: 1px 0 5px rgba(178, 2, 2, 0.895);
+    cursor: pointer;
+}
+
+.detail-order-status-modal .content-left{
+    position: absolute;
+    top: 15%;
+    left: 0;
+    height: 83%;
+    width: 60%;
+    background-color: #ecf0f1;
+}
+
+.detail-order-status-modal .content-right{
+    position: absolute;
+    top: 15%;
+    left: 60%;
+    height: 83%;
+    width: 40%;
+    background-color: #ecf0f1;
+    border-left: 1px solid #26211ab0;
+}
+.detail-order-status-modal .info-receiver{
+    padding: 20px 0 10px 10px;
 }
 
 .order-bill .show-detail-pod{
@@ -1357,7 +1415,7 @@ button {
     cursor: pointer;
 }
 .show-detail-pod:hover {
-    color: #2cbcfaca;
+    color: #176688ca;
     text-shadow: 0  0 5px #ddd8d8b0;
 }
 
@@ -1495,10 +1553,10 @@ button {
 
 .change-pass .btn-change-pass{
     top: 0;
-    left: 0;
+    left: 10%;
     margin: 30px;
     height: 55px;
-    width: 250px;
+    width: 300px;
     font-size: 20px;
     background-image: linear-gradient(135deg, #79ffb5 0%, #43d233 100%);
     box-shadow: 0 20px 30px -6px rgba(60, 234, 86, 0.5);
@@ -2097,13 +2155,6 @@ button {
 .idtruoc {
     border: 2px solid black;
 }
-
-/* .div_img{
-    display: grid;
-    height: 60%;
-    width:40%;
-    margin-left: 50px;
-} */
 
 .div_type {
     font-size: 20px;

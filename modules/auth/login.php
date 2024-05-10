@@ -38,9 +38,6 @@ function get_user_info($conn, $user,$pass){
         if(!empty($kq)){
             if($kq['UserType']==1){
                 header('location: ?module=admin');
-                $_SESSION['user']=$user;
-                $_SESSION['user-id']= $kq['CustomerID'];
-                $_SESSION['user-Name']= $kq['FullName'];
             }
             else{
                 $_SESSION['user']=$user;

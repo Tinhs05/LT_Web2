@@ -84,7 +84,7 @@ if(!defined('_CODE')){
                     <li class="sidebar-list-item user-logout">
                         <a href="#" class="sidebar-link">
                             <div class="sidebar-icon"><i class="fa-light fa-circle-user"></i></div>
-                            <div class="hidden-sidebar" id="name-acc"><?php echo $_SESSION['user-Name'];?></div>
+                            <div class="hidden-sidebar" id="name-acc">Admin</div>
                         </a>
                     </li>
                     <li class="sidebar-list-item user-logout">

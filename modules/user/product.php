@@ -11,7 +11,7 @@
             echo json_encode($result);
 
             $conn = null;
-        } catch (Exeption $exp) {
+        } catch (Exception $exp) {
             echo $exp -> getMessage().'<br>';
             echo "Error File: ".$exp -> getFile().'<br>';
             echo "Error Line: ".$exp -> getLine().'<br>';
