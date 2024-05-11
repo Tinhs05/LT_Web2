@@ -121,7 +121,12 @@ $user_inf = get_info($conn, $user);
                     act: 'update_user',
                 },
                 success: function(response) {
-                    alert('Thông tin đã được cập nhật.')
+                    advertise({
+                        title: 'Success',
+                        message: 'Thông tin đã được thay đổi',
+                        type: 'success',
+                        duration: 2000
+                    })
                     $('.acc-info .inputedit').attr('readonly', true);
                     $('.acc-info .inputedit').css('box-shadow', 'none');
                     $('.btn-edit-acc-info').text("Chỉnh sửa");
@@ -155,7 +160,12 @@ $user_inf = get_info($conn, $user);
                     $('#current-pass').val('');
                     $('#new-pass').val('');
                     $('#confirm-pass').val('');
-                    alert('Mật khẩu đã được thay đổi.');
+                    advertise({
+                        title: 'Success',
+                        message: 'Đổi mật khẩu thành công',
+                        type: 'success',
+                        duration: 2000
+                    })
                     $('.modal-account').css('display', 'none');
                 },
                 error: function(xhr, status, error) {

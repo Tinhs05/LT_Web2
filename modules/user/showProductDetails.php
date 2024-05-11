@@ -51,7 +51,7 @@ if(!empty($resuilt)){?>
             </div>
             <div class="div_price">
                 <h1 class="newprice" id="newprice"></h1>
-                <h1 class="price" id="price"><?php echo number_format($resuilt['Price']);?>&nbsp;₫</h1>
+                <h1 class="price" id="price"><?php echo number_format($resuilt['Price'], 0, ',', '.');?>&nbsp;₫</h1>
             </div>
             <div id="list-size" class="list-size">
             <ul class="btn-sizes">
@@ -91,7 +91,7 @@ if(!empty($resuilt)){?>
             </div>
             <div class="box-ctl"> 
                 <button class="div_cart" id="btnAddCart" onclick="addPodCart()">THÊM VÀO GIỎ HÀNG</button>
-                <button class="div_buy">MUA NGAY</button>
+                <button class="div_buy" onclick="buy_now()">MUA NGAY</button>
             </div>
             </div>
         </div>
@@ -99,11 +99,4 @@ if(!empty($resuilt)){?>
 <?php
 }
 ?>
-<script>
-    $(document).ready(function() {
-        $(".div_buy").on('click', function (e) {
-            alert("Mua má mày");
-        });
-    });
-</script>
 

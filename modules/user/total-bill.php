@@ -1,11 +1,12 @@
 <?php
-require_once (_WEB_PATH_TEMPLATES.'/layout/header.php');
+require_once(_WEB_PATH_TEMPLATES . '/layout/header.php');
 require_once('./includes/connect.php');
 
 $userID = $_SESSION['user-id'];
 $total = 0;
 
-function getPodformCart($conn, $userID){
+function getPodformCart($conn, $userID)
+{
     try {
         $sql = "SELECT c.ProductID, p.ProductName, p.Image, p.Price, c.Quantity, cus.FullName, cus.PhoneNumber, cus.Address
                 FROM cart c
@@ -16,10 +17,9 @@ function getPodformCart($conn, $userID){
         $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
         $stmt->execute();
         $resuilt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     } catch (\Throwable $th) {
-        echo "Lỗi: ".$th->getMessage();
-    }finally{
+        echo "Lỗi: " . $th->getMessage();
+    } finally {
         $conn = null;
     }
     return $resuilt;
@@ -47,20 +47,17 @@ $kq = getPodformCart($conn, $userID);
                         <form action="" class="info-nhan-hang">
                             <div class="form-group">
                                 <label for="">Họ và tên</label>
-                                <input name="tennguoinhan" type="text" value="<?php echo $kq[0]['FullName']; ?>"
-                                    placeholder="Tên người nhận" class="form-control" required>
+                                <input name="tennguoinhan" type="text" value="<?php echo $kq[0]['FullName']; ?>" placeholder="Tên người nhận" class="form-control" required>
                                 <span class="form-message"></span>
                             </div>
                             <div class="form-group">
                                 <label for="">Số điện thoại</label>
-                                <input name="sdtnhan" type="text" value="<?php echo $kq[0]['PhoneNumber']; ?>"
-                                    placeholder="Số điện thoại nhận hàng" class="form-control" required>
+                                <input name="sdtnhan" type="text" value="<?php echo $kq[0]['PhoneNumber']; ?>" placeholder="Số điện thoại nhận hàng" class="form-control" required>
                                 <span class="form-message"></span>
                             </div>
                             <div class="form-group">
                                 <label for="">Địa chỉ chi tiết</label>
-                                <input name="diachinhan" type="text" value="<?php echo $kq[0]['Address'];?>" 
-                                    placeholder="Địa chỉ nhận hàng" class="form-control chk-ship" required>
+                                <input name="diachinhan" type="text" value="<?php echo $kq[0]['Address']; ?>" placeholder="Địa chỉ nhận hàng" class="form-control chk-ship" required>
                                 <span class="form-message"></span>
                             </div>
                             <div class="form-group">
@@ -70,7 +67,7 @@ $kq = getPodformCart($conn, $userID);
                         </form>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
         <div class="checkout-col-right">
             <div class="checkout-col-right-head">
@@ -80,19 +77,19 @@ $kq = getPodformCart($conn, $userID);
             <div class="bill-total" id="list-order-checkout">
                 <?php
                 foreach ($kq as $data) {
-                    $total += ($data['Quantity'] * $data['Price']);?> 
-                <div class="product-total">
-                    <div class="product-total-left">
-                        <div class=""><img class="check-out-img" src="./templates<?php echo $data['Image'];?>" alt=""></div>
-                        <div class="info-prod">
-                            <div class="name-prod"><?php echo $data['ProductName'];?></div>
+                    $total += ($data['Quantity'] * $data['Price']); ?>
+                    <div class="product-total">
+                        <div class="product-total-left">
+                            <div class=""><img class="check-out-img" src="./templates<?php echo $data['Image']; ?>" alt=""></div>
+                            <div class="info-prod">
+                                <div class="name-prod"><?php echo $data['ProductName']; ?></div>
+                            </div>
+                            <div class="count">x<?php echo $data['Quantity']; ?></div>
                         </div>
-                        <div class="count">x<?php echo $data['Quantity'];?></div>
+                        <div class="product-total-right">
+                            <div class="priceProd"><?php echo number_format($data['Price'], 0, ',', '.'); ?>&nbsp;₫</div>
+                        </div>
                     </div>
-                    <div class="product-total-right">
-                        <div class="priceProd"><?php echo number_format($data['Price'], 0, ',', '.');?>&nbsp;₫</div>
-                    </div>
-                </div>
                 <?php
                 }
                 ?>
@@ -101,23 +98,23 @@ $kq = getPodformCart($conn, $userID);
                 <div class="total-bill-order">
                     <div class="priceFlx">
                         <div class="text">
-                             Tạm tính
+                            Tạm tính
                         </div>
                         <div class="price-detail">
-                            <span class="checkout-cart-total"><?php echo number_format($total, 0, ',', '.');?>&nbsp;₫</span>
+                            <span class="checkout-cart-total"><?php echo number_format($total, 0, ',', '.'); ?>&nbsp;₫</span>
                         </div>
                     </div>
                     <div class="priceFlx chk-ship">
-                    <form class="list-ship" id="radioFormShip">
-                           <div>
-                              <input type="radio" name="shippingOps" class="shippingOps" value="20000" checked>
-                              <label for="shippingOps" id="transport-fee-bill">Vận chuyển thường: <strong>20.000&nbsp;₫</strong></label>
-                          </div>
-                          <div>
-                              <input type="radio" name="shippingOps" class="shippingOps" value="30000">
-                              <label for="shippingOps" id="speed-ship-bill">Giao hàng hỏa tốc nội thành: <strong>30.000&nbsp;₫</strong></label>
-                          </div>
-                    </form>
+                        <form class="list-ship" id="radioFormShip">
+                            <div>
+                                <input type="radio" name="shippingOps" class="shippingOps" value="20000" checked>
+                                <label for="shippingOps" id="transport-fee-bill">Vận chuyển thường: <strong>20.000&nbsp;₫</strong></label>
+                            </div>
+                            <div>
+                                <input type="radio" name="shippingOps" class="shippingOps" value="30000">
+                                <label for="shippingOps" id="speed-ship-bill">Giao hàng hỏa tốc nội thành: <strong>30.000&nbsp;₫</strong></label>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="policy-note">
@@ -129,7 +126,7 @@ $kq = getPodformCart($conn, $userID);
             <div class="total-checkout">
                 <div class="text">Tổng tiền</div>
                 <div class="price-bill">
-                    <div class="price-final" id="checkout-cart-price-final"><?php echo number_format($total+20000, 0, ',', '.');?> &nbsp;₫</div>
+                    <div class="price-final" id="checkout-cart-price-final"><?php echo number_format($total + 20000, 0, ',', '.'); ?> &nbsp;₫</div>
                 </div>
             </div>
             <div class="payment-method">
@@ -144,21 +141,22 @@ $kq = getPodformCart($conn, $userID);
             <button class="complete-checkout-btn">Đặt hàng</button>
         </div>
     </main>
-</div>  
+</div>
+<div id="advertise"></div>
 <script>
-    
-    $('#btn-close').on('click', function(){
+    $('#btn-close').on('click', function() {
         window.location.href = "?module=user";
     })
     var deliveryName = 'Vận chuyển thường';
-    var total_final = <?php echo $total+20000;?>;
+    var total_final = <?php echo $total + 20000; ?>;
     $('.shippingOps').on('change', function() {
         var labelValue = $(this).next('label').text();
         var deliveryName = labelValue.split(':')[0].trim();
         var shippingFee = $('input[name="shippingOps"]:checked').val();
-        var temporaryTotal = <?php echo $total;?>;
-        $('#checkout-cart-price-final').html(vnd(parseInt(shippingFee)+parseInt(temporaryTotal))+"&nbsp;₫");
+        var temporaryTotal = <?php echo $total; ?>;
+        $('#checkout-cart-price-final').html(vnd(parseInt(shippingFee) + parseInt(temporaryTotal)) + "&nbsp;₫");
     });
+
     function vnd(number) {
         return number.toLocaleString('vi-VN');
     }
@@ -169,12 +167,8 @@ $kq = getPodformCart($conn, $userID);
         var diachinhan = $('input[name="diachinhan"]').val();
         var productList = <?php echo json_encode($kq); ?>;
 
-        var priceString = $('#checkout-cart-price-final').text();
-        var format_price = priceString.split(' ')[0].trim();
-        var priceTotal = parseInt(format_price.replace(/\./g, ''));
-        if(priceTotal < total_final){
-                priceTotal = priceTotal*1000;
-            }
+        var priceTotal = <?php echo $total; ?>;
+        console.log(priceTotal)
 
         var isEmpty = false;
         $(".info-nhan-hang").find('input, select, textarea').each(function() {
@@ -183,7 +177,7 @@ $kq = getPodformCart($conn, $userID);
                 $(this).siblings('.form-message').text("Trường này không được trống");
             }
         });
-        if (!isEmpty) { 
+        if (!isEmpty) {
             event.preventDefault();
         } else {
             $.ajax({
@@ -198,13 +192,73 @@ $kq = getPodformCart($conn, $userID);
                     productList: productList
                 },
                 success: function(data) {
-                    console.log(data);
-                    window.location.href = "?module=auth&action=account-centre";
+                    advertise({
+                        title: 'Success',
+                        message: 'Sản phẩm đã được thêm vào giỏ hàng thành công!',
+                        type: 'success',
+                        duration: 3000
+                    })
+                    setTimeout(function() {
+                        window.location.href = "?module=auth&action=account-centre";
+                    }, 3000);
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
                 }
             });
+        }
+    })
+
+    function advertise({
+        title = 'Success',
+        message = 'Tạo tài khoản thành công',
+        type = 'success',
+        duration = 1000
+    }) {
+        const main = $('#advertise');
+        if (main.length) {
+            const advertise = $('<div class="advertise"></div>');
+            //Auto remove advertise
+            const autoRemove = setTimeout(function() {
+                advertise.remove();
+            }, duration + 1000);
+            //Remove advertise when click btn close
+            advertise.on('click', function(e) {
+                if ($(e.target).closest('.fa-regular').length) {
+                    advertise.remove();
+                    clearTimeout(autoRemove);
+                }
+            });
+            const colors = {
+                success: '#47d864',
+                info: '#2f86eb',
+                warning: '#ffc021',
+                error: '#ff6243'
             }
-        })
+            const icons = {
+                success: 'fa-light fa-check',
+                info: 'fa-solid fa-circle-info',
+                warning: 'fa-solid fa-triangle-exclamation',
+                error: 'fa-solid fa-bug'
+            };
+            const color = colors[type];
+            const icon = icons[type];
+            const delay = (duration / 1000).toFixed(2);
+            advertise.addClass(`advertise--${type}`).css('animation', `slideInTop ease 0.3s, fadeOut linear 1s ${delay}s forwards`)
+                .html(`<div class="advertise__private" >
+          <div class="advertise__icon">
+              <i class="${icon}"></i>
+          </div>
+          <div class="advertise__body">
+              <h3 class="advertise__title" >${title}</h3>
+              <p class="advertise__msg">
+                  ${message}
+              </p>
+          </div>
+      </div>
+      <div class="advertise__background"style="background-color: ${color};">
+      </div>`);
+            main.append(advertise);
+        }
+    }
 </script>

@@ -18,7 +18,7 @@ require_once("./includes/connect.php");
         </div>
         <div class="menu-items-acc-centre">
             <a href="?module=user">
-                <span><i class="fa-solid fa-shop"></i> Cửa hàng</span>
+                <span><i class="fa-solid fa-shop"></i> Trang chủ</span>
             </a>
         </div>
         <div class="menu-items-acc-centre">
@@ -33,6 +33,7 @@ require_once("./includes/connect.php");
         ?>
     </div>
 </div>
+<div id="advertise"></div>
 <!-- Script -->
 <script>
     $(document).ready(function() {
@@ -55,4 +56,57 @@ require_once("./includes/connect.php");
             })
         })
     });
+
+    function advertise({
+        title = 'Success',
+        message = 'Tạo tài khoản thành công',
+        type = 'success',
+        duration = 1000
+    }) {
+        const main = $('#advertise');
+        if (main.length) {
+            const advertise = $('<div class="advertise"></div>');
+            //Auto remove advertise
+            const autoRemove = setTimeout(function() {
+                advertise.remove();
+            }, duration + 1000);
+            //Remove advertise when click btn close
+            advertise.on('click', function(e) {
+                if ($(e.target).closest('.fa-regular').length) {
+                    advertise.remove();
+                    clearTimeout(autoRemove);
+                }
+            });
+            const colors = {
+                success: '#47d864',
+                info: '#2f86eb',
+                warning: '#ffc021',
+                error: '#ff6243'
+            }
+            const icons = {
+                success: 'fa-light fa-check',
+                info: 'fa-solid fa-circle-info',
+                warning: 'fa-solid fa-triangle-exclamation',
+                error: 'fa-solid fa-bug'
+            };
+            const color = colors[type];
+            const icon = icons[type];
+            const delay = (duration / 1000).toFixed(2);
+            advertise.addClass(`advertise--${type}`).css('animation', `slideInTop ease 0.3s, fadeOut linear 1s ${delay}s forwards`)
+                .html(`<div class="advertise__private" >
+          <div class="advertise__icon">
+              <i class="${icon}"></i>
+          </div>
+          <div class="advertise__body">
+              <h3 class="advertise__title" >${title}</h3>
+              <p class="advertise__msg">
+                  ${message}
+              </p>
+          </div>
+      </div>
+      <div class="advertise__background"style="background-color: ${color};">
+      </div>`);
+            main.append(advertise);
+        }
+    }
 </script>

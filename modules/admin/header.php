@@ -1,10 +1,11 @@
 <?php
-if(!defined('_CODE')){
+if (!defined('_CODE')) {
     die('Access denied...');
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,13 +15,14 @@ if(!defined('_CODE')){
     <link rel="stylesheet" type="text/cs" href="<?php echo _WEB_HOST_TEMPLATES ?>/assets/image?ver=<?php echo rand(); ?>">
     <link href="./templates/css/font/font-awesome-pro-v6-6.2.0/css/all.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="<?php echo _WEB_HOST_TEMPLATES ?>/css/jquery-ui.css">
+    <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/jquery-3.7.1.js"></script>
+    <script src="<?php echo _WEB_HOST_TEMPLATES ?>/js/jquery-ui.js"></script>
     <title>Quản lý cửa hàng</title>
 </head>
+
 <body>
-<header class="header">
+    <header class="header">
         <button class="menu-icon-btn">
             <div class="menu-icon">
                 <i class="fa-regular fa-bars"></i>
@@ -31,7 +33,7 @@ if(!defined('_CODE')){
 
         <aside class="sidebar open">
             <ul>
-                
+
             </ul>
             <div class="top-sidebar">
                 <a href="#" class="channel-logo"><img src="./templates/assets/image/logo.png" alt="Channel Logo"></a>
@@ -45,7 +47,7 @@ if(!defined('_CODE')){
                             <div class="hidden-sidebar">Cửa hàng</div>
                         </a>
                     </li> -->
-                   
+
                     <!-- <li class="sidebar-list-item tab-content ">
                         <a href="#" class="sidebar-link">
                             <div class="sidebar-icon"><i class="fa-light fa-house"></i></div>
@@ -80,30 +82,26 @@ if(!defined('_CODE')){
             </div>
             <div class="bottom-sidebar">
                 <ul class="sidebar-list">
-                   
+
                     <li class="sidebar-list-item user-logout">
                         <a href="#" class="sidebar-link">
                             <div class="sidebar-icon"><i class="fa-light fa-circle-user"></i></div>
-<<<<<<< HEAD
-                            <div class="hidden-sidebar" id="name-acc">Admin</div>
-=======
-                            <div class="hidden-sidebar" id="name-acc">Quản trị viên</div>
->>>>>>> 8f04f498ca8a63f53c64bc41418f12ba5b5c9077
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item user-logout" id="logout">
-                        <a href="" class="sidebar-link" id="logout-acc">
-                            <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
-                            <div class="hidden-sidebar">Đăng xuất</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-<script>
-    $('#logout').on('click', function(e){
-        e.preventDefault();
-        <?php session_destroy(); ?>
-        window.location.href = "?module=auth&action=login";
-    })
-</script>
+            <div class="hidden-sidebar" id="name-acc">Quản trị viên</div>
+            </a>
+            </li>
+            <li class="sidebar-list-item user-logout" id="logout">
+                <a href="" class="sidebar-link" id="logout-acc">
+                    <div class="sidebar-icon"><i class="fa-light fa-arrow-right-from-bracket"></i></div>
+                    <div class="hidden-sidebar">Đăng xuất</div>
+                </a>
+            </li>
+            </ul>
+    </div>
+    </aside>
+    <script>
+        $('#logout').on('click', function(e) {
+            e.preventDefault();
+            <?php session_destroy(); ?>
+            window.location.href = "?module=auth&action=login";
+        })
+    </script>

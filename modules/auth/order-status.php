@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 function getAllOrders($conn, $user)
 {
-    $sql = "SELECT * FROM orders WHERE CustomerID = '$user'";
+    $sql = "SELECT * FROM orders WHERE CustomerID = '$user' order by orderID desc";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -49,6 +49,23 @@ function countOrdersByStatus($conn, $status, $user)
         }, function(data) {
             $('.detail-order-status-modal').html(data);
             $('.detail-order-status-modal').css('display', 'flex');
+        });
+    }
+
+    function cancel_order(id, btn) {
+        orderID = id;
+        $.post('?module=auth&action=cancel_order', {
+            cancel_order_id: orderID
+        }, function(data) {
+            advertise({
+                title: 'Success',
+                message: 'Đã hủy sản phẩm',
+                type: 'success',
+                duration: 2000
+            })
+            setTimeout(function() {
+                window.location.reload();
+            }, 2000)
         });
     }
 </script>
@@ -114,7 +131,7 @@ function countOrdersByStatus($conn, $status, $user)
                 <div class="status">
                     <div class="status-color"><?php echo $o['Status']; ?></div>
                 </div>
-                <div class="cancel-order">
+                <div class="cancel-order" ondblclick="cancel_order(<?php echo $o['OrderID']; ?>, this)">
                     <?php
                     if ($o['Status'] === "Chờ xác nhận") {
                     ?>
@@ -131,77 +148,79 @@ function countOrdersByStatus($conn, $status, $user)
 </div>
 <div class="detail-order-status-modal" style="display: none;"></div>
 <script>
-    let orderBillIndex = 0;
-    let slideIndexes = [];
+    $(document).ready(function() {
+        let orderBillIndex = 0;
+        let slideIndexes = [];
 
-    function slide_product() {
-        $('.order-bill').each(function(index) {
-            let slides = $(this).find('.data');
-            if (slideIndexes[index] === undefined) {
-                slideIndexes[index] = 0;
+        function slide_product() {
+            $('.order-bill').each(function(index) {
+                let slides = $(this).find('.data');
+                if (slideIndexes[index] === undefined) {
+                    slideIndexes[index] = 0;
+                }
+                $(slides).hide();
+                slideIndexes[index]++;
+                if (slideIndexes[index] > slides.length) {
+                    slideIndexes[index] = 1;
+                }
+                $(slides[slideIndexes[index] - 1]).show();
+            });
+            setTimeout(slide_product, 5000);
+        }
+        slide_product();
+
+        $('.status-color').each(function() {
+            var statusElement = $(this);
+            var status = statusElement.text().trim();
+
+            switch (status) {
+                case "Chờ xác nhận":
+                    statusElement.css('background-color', 'rgb(0,158,255)');
+                    break;
+                case "Đang giao hàng":
+                    statusElement.css('background-color', 'rgb(244, 244, 35)');
+                    statusElement.css('color', 'black');
+                    break;
+                case "Đã giao xong":
+                    statusElement.css('background-color', 'rgb(44, 197, 44)');
+                    break;
+                case "Đã hủy":
+                    statusElement.css('background-color', 'gray');
+                    break;
             }
-            $(slides).hide();
-            slideIndexes[index]++;
-            if (slideIndexes[index] > slides.length) {
-                slideIndexes[index] = 1;
-            }
-            $(slides[slideIndexes[index] - 1]).show();
         });
-        setTimeout(slide_product, 5000);
-    }
-    slide_product();
 
-    $('.status-color').each(function() {
-        var statusElement = $(this);
-        var status = statusElement.text().trim();
+        $('.order-status').on('click', function() {
+            var status = $(this).data('status');
 
-        switch (status) {
-            case "Chờ xác nhận":
-                statusElement.css('background-color', 'rgb(0,158,255)');
-                break;
-            case "Đang giao hàng":
-                statusElement.css('background-color', 'rgb(244, 244, 35)');
-                statusElement.css('color', 'black');
-                break;
-            case "Đã giao xong":
-                statusElement.css('background-color', 'rgb(44, 197, 44)');
-                break;
-            case "Đã hủy":
-                statusElement.css('background-color', 'gray');
-                break;
-        }
-    });
+            $('.order-bill').hide();
 
-    $('.order-status').on('click', function() {
-        var status = $(this).data('status');
-
-        $('.order-bill').hide();
-
-        switch (status) {
-            case "all":
-                $('.order-bill').show();
-                break;
-            case "pending":
-                $('.order-bill').each(function() {
-                    if ($(this).find('.status-color').text().trim() === "Chờ xác nhận") {
-                        $(this).show();
-                    }
-                });
-                break;
-            case "shipping":
-                $('.order-bill').each(function() {
-                    if ($(this).find('.status-color').text().trim() === "Đang giao hàng") {
-                        $(this).show();
-                    }
-                });
-                break;
-            case "success":
-                $('.order-bill').each(function() {
-                    if ($(this).find('.status-color').text().trim() === "Đã giao xong") {
-                        $(this).show();
-                    }
-                });
-                break;
-        }
+            switch (status) {
+                case "all":
+                    $('.order-bill').show();
+                    break;
+                case "pending":
+                    $('.order-bill').each(function() {
+                        if ($(this).find('.status-color').text().trim() === "Chờ xác nhận") {
+                            $(this).show();
+                        }
+                    });
+                    break;
+                case "shipping":
+                    $('.order-bill').each(function() {
+                        if ($(this).find('.status-color').text().trim() === "Đang giao hàng") {
+                            $(this).show();
+                        }
+                    });
+                    break;
+                case "success":
+                    $('.order-bill').each(function() {
+                        if ($(this).find('.status-color').text().trim() === "Đã giao xong") {
+                            $(this).show();
+                        }
+                    });
+                    break;
+            }
+        });
     });
 </script>

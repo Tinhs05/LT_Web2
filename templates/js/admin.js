@@ -1855,6 +1855,6 @@ let sttUs;
 document.getElementById("logout-acc").addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem("currentuser");
-    window.location = "/";
+    window.location.href = "?module=user";
 })
 

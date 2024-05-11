@@ -7,6 +7,13 @@ function vnd(price) {
   return "";
 }
 
+function vndFormat(amount) {
+  amount = parseFloat(amount).toFixed(0);
+  amount = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+  return amount + " ₫";
+}
+
 // <!-- Slices Banner -->
 let slideIndex = 0;
 function showSlides() {
@@ -28,20 +35,148 @@ showSlides();
 
 // ````` SẢN PHẨM `````
 // <!-- Load sản phẩm cho trang user -->
+var list_Product = [];
+function getAllProducts() {
+  $.post("?module=user&action=product", {}, function (data) {
+    var data = JSON.parse(data);
+    list_Product = data;
+    showHomeProduct(list_Product);
+  });
+}
 
+function showAllProduct(productShow) {
+  var html_product = '';
+  if (productShow.length > 0) {
+    productShow.forEach(function (p) {
+      html_product += `<div class="col-product">
+                                <article class="card-product">
+                                    <div class="card-header">
+                                        <a href="#" class="card-image-link">
+                                            <img class="card-image" src="./templates${p.Image}" loading="lazy" alt="">
+                                            <img class="card-image-hover" src="./templates${p.ImageHV}" loading="lazy" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="prod-info">
+                                        <div class="card-content">
+                                            <div class="card-title">
+                                                <a href="#" class="card-title-link">${p.ProductName}</a>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="product-price">
+                                                <span class="current-price"></span>
+                                                <span class="old-price">${vndFormat(p.Price)}</span>
+                                            </div>
+                                            <div class="product-buy">
+                                                <button class="card-button order-item" onclick="displayCardProduct(${p.ProductID}, this)"><i class="fa-regular fa-cart-shopping-fast"></i>Xem sản phẩm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>`;
+    });
+    $('#home-products').html(html_product);
+  };
+}
+
+// Phân trang
+let perPage = 12;
+let currentPage = 1;
+let totalPage = 0;
+let perProducts = []; function displayList(list_Product, perPage, currentPage) {
+  let start = (currentPage - 1) * perPage;
+  let end = start + perPage;
+  let productShow = list_Product.slice(start, end);
+  showAllProduct(productShow);
+}
+
+function showHomeProduct(list_Product) {
+  displayList(list_Product, perPage, currentPage);
+  setupPagination(list_Product, perPage);
+}
+
+function setupPagination(list_Product, perPage) {
+  $('.page-nav-list').html('');
+  let page_count = Math.ceil(list_Product.length / perPage);
+  for (let i = 1; i <= page_count; i++) {
+    let li = paginationChange(i, list_Product, currentPage);
+    $('.page-nav-list').append(li);
+  }
+}
+
+function paginationChange(page, list_Product, currentPage) {
+  let node = $('<li></li>').addClass('page-nav-item').html(`<a href="javascript:;">${page}</a>`);
+  if (currentPage == page) node.addClass('active');
+  node.on('click', function () {
+    currentPage = page;
+    displayList(list_Product, perPage, currentPage);
+    $('.page-nav-item.active').removeClass('active');
+    node.addClass('active');
+    $('#home-title').get(0).scrollIntoView();
+  });
+  return node;
+}
+
+getAllProducts();
+
+// <!-- Tìm kiếm sản phẩm -->
+$('.search-btn').click(function () {
+  var keyword = $('#form-search-product').val().toLowerCase();
+  var filteredProducts = list_Product.filter(function (product) {
+    return product.ProductName.toLowerCase().includes(keyword);
+  });
+  console.log(filteredProducts)
+
+  if (filteredProducts.length > 0) {
+    advertise({
+      title: 'Success',
+      message: 'Đã tìm thấy sản phẩm theo yêu cầu',
+      type: 'success',
+      duration: 3000
+    });
+    showHomeProduct(filteredProducts);
+  } else {
+    advertise({
+      title: 'Error',
+      message: 'Không tìm thấy sản phẩm như mong muốn',
+      type: 'error',
+      duration: 3000
+    });
+    $('#home-products').html('Không tìm thấy sản phẩm mà bạn mong muốn (TT)');
+    $('.page-nav-list').html('');
+  }
+});
+
+// <!-- Catelogy -->
+$('.lowmenu button').click(function () {
+  let categoryId = $(this).parent().data('catelogy');
+  let filteredProducts = list_Product.filter(function (product) {
+    return product.TypeID === categoryId;
+  });
+  advertise({
+    title: 'Success',
+    message: 'Đã tìm thấy sản phẩm theo yêu cầu',
+    type: 'success',
+    duration: 3000
+  });
+  showHomeProduct(filteredProducts);
+});
+
+//<!-- Filter -->
+// document.querySelector(".filter-btn").addEventListener("click", (e) => {
+//   e.preventDefault();
+//   document.querySelector(".advanced-search").classList.toggle("open");
+//   document.getElementById("home-title").scrollIntoView();
+// })
 
 
 // <!-- Hiện chi tiết sản phẩm -->
-$(".card-button").on('click', function(e){
-  e.preventDefault();
-  var cardProduct = $(this).closest('.card-product');
-  var productId = cardProduct.find('.product-id').val();
-  $("#div_detail").css("display", "grid");
-
-  $.post("?module=user&action=showProductDetails", {productID: productId}, function(data){
+function displayCardProduct(id, btn) {
+  $('#div_detail').css('display', 'flex');
+  $.post("?module=user&action=showProductDetails", { productID: id }, function (data) {
     $("#div_detail").html(data);
   });
-});
+}
 
 // <!-- Đóng chi tiết sản phẩm -->
 function closedetail(){
@@ -90,7 +225,6 @@ function handleMinus(button){
 
 // ````` GIỎ HÀNG `````
 // <!-- Mở giỏ hàng -->
-var currentuser = '';
 var list_Cart = [];
 function openCart() {
     $('.modal-cart').addClass('open');
@@ -98,8 +232,7 @@ function openCart() {
     $.post("?module=user&action=listCart", function(data){
         if(data!=null){
           var response = JSON.parse(data);
-          currentuser = response.user; 
-          list_Cart = response.cart;
+          list_Cart = response;
         }
       showCart();
     }, )
@@ -111,7 +244,7 @@ function closeCart() {
   $('.modal-cart').removeClass('open');
 
   if(list_Cart.length>0){
-  $("#cart-list").html(`<div class ="cart-left">
+    $("#cart-list").html(`<div class ="cart-left">
     <table>
         <thead>
           <tr>
@@ -125,50 +258,16 @@ function closeCart() {
         <tbody id="showProdCart">
         </tbody>
     </table>
-  </div>
-  <div class="cart-right">
-  <div class="cart-total-price">
-     <p class="text-tt">Tạm tính:</p>
-     <p class="text-price">0đ</p>
-  </div>
-  <div class="cart-ship">
-    <p>Giao hàng</p>
-    <div>
-        <form class="list-ship" id="radioForm">
-            <div>
-                <input type="radio" name="shippingOption" class="shippingOption" value="transport-fee" checked>
-                <label for="" id="transport-fee">Giao hàng tiết kiệm <strong>${vnd(30000)}</strong></label>
-            </div>
-            <div>
-                <input type="radio" name="shippingOption" class="shippingOption" value="speed-ship">
-                <label for="" id="speed-ship">Giao hàng hỏa tốc nội thành: <strong>${vnd(30000)}</strong></label>
-            </div>
-        </form>
-        <p id="ship-to-province">Vận chuyển đến <strong>Hồ Chí Minh</strong></p>
-        
-        <form action="" id="shippingForm">
-            <span class="change-address" onclick="showSectionProv()">Đổi địa chỉ</span>
-            <section class="sectionProvince">
-                <p>
-                    <select name="" id="provinceSelect" class="formProvinces" onchange="selectProv()">
-                        <option value="selected" >Chọn tỉnh/thành phố</option>
-                    </select>
-                    <p>Địa chỉ chi tiết</p>
-                    <input type="text" class="detail-address">
-                </p>
-            </section>
-        </form>
     </div>
-  </div>
-  <div class="total-price">
-      <p>Tổng:</p>
-      <p id="total-bill"></p>
-  </div>
-  </div>`);
+    <div class="cart-right">
+    <div class="cart-total-price">
+      <p class="text-tt">Tạm tính:</p>
+      <p class="text-price">0đ</p>
+    </div>
+    </div>`);
 
-  // Đặt thuộc tính overflow của body về giá trị "auto"
-  $('body').css('overflow', 'auto');
   }
+  $('body').css('overflow', 'auto');
 }
 
 // Một số nút đóng giỏ hàng khác
@@ -189,6 +288,8 @@ containerCart.addEventListener('click', (e) => {
 function showCart() {
   if (list_Cart.length > 0) {
       $('.gio-hang-trong').css('display', 'none');
+    $('.cart-left').css('display', 'block');
+    $('.cart-right').css('display', 'blbck');
       $('.thanh-toan').removeClass('disabled');
       let productcarthtml = '';
       list_Cart.forEach(function(p){
@@ -212,8 +313,6 @@ function showCart() {
               </tr>`
       });
       $("#showProdCart").html(productcarthtml);
-      $("#transport-fee").html("Giao hàng tiết kiệm: <Strong>"+vnd(20000)+"</Strong>");
-      $("#speed-ship").html("Giao hàng hỏa tốc nội thành: <Strong>"+ vnd(30000) +"</Strong>");
       updateCartTotal();
   } else {
       $('.gio-hang-trong').css('display', 'flex');
@@ -228,14 +327,27 @@ function addPodCart() {
   var userID = $('#user-id').val();
   var productID = $('#product-id').val();
   var quantity = $('.input-qty').val();
-  if(userID > 0){
-      $.post("?module=user&action=add-cart", {userID: userID, productID: productID, quantity: quantity}, function(response){
-        console.log(response)
-          closedetail();
+
+  if (userID > 0) {
+    $.post("?module=user&action=add-cart", { userID: userID, productID: productID, quantity: quantity }, function (response) {
+      advertise({
+        title: 'Success',
+        message: 'Sản phẩm đã được thêm vào giỏ hàng thành công!',
+        type: 'success',
+        duration: 1000
       });
+      closedetail();
+    });
   } else {
-      alert("Đăng nhập đã con đĩ");
+    advertise({
+      title: 'Error',
+      message: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!',
+      type: 'error',
+      duration: 2000
+    });
+    setTimeout(function () {
       window.location.href = "?module=auth&action=login";
+    }, 2000);
   }
 }
 
@@ -260,12 +372,6 @@ function deleteCartItem(id, btn) {
 }
 
 // <!-- Tính tiền của giỏ hàng -->
-let temp_price_ship = 20000;
-$('.shippingOption').on('change', function (e) {
-  e.preventDefault();
-  temp_price_ship = $('input[name=shippingOption]:checked').val();
-  updateCartTotal();
-})
 
 function getCartTotal() {
   let tongtien = 0;
@@ -279,15 +385,9 @@ function getCartTotal() {
 
 function updateCartTotal() {
     let textPriceElement = document.querySelector('.text-price');
-    let totalBillElement = document.querySelector('#total-bill');
     
-    // Kiểm tra xem phần tử có tồn tại hay không
-    if (textPriceElement && totalBillElement) {
-        // Thiết lập giá trị innerText của các phần tử
+    if (textPriceElement) {
         textPriceElement.innerText = vnd(getCartTotal());
-        totalBillElement.innerText = vnd(getCartTotal() + parseInt(temp_price_ship));
-    } else {
-        console.error("Không thể tìm thấy phần tử để cập nhật tổng số tiền trong giỏ hàng.");
     }
 }
 // <!-- Cập nhật số lượng trong giỏ hàng -->
@@ -354,223 +454,86 @@ $('.thanh-toan').on('click', function () {
   window.location.href = "?module=user&action=total-bill";
 })
 
+// <!-- Thanh toán ngay -->
+function buy_now() {
+  var userID = $('#user-id').val();
+  var productID = $('#product-id').val();
+  var quantity = $('.input-qty').val();
+  console.log(productID + quantity)
 
+  if (userID > 0) {
+    $.post("?module=user&action=buy_now", { productID: productID, quantity: quantity }, function (response) {
+      // Xử lý phản hồi từ máy chủ (nếu cần)
+      // Sau đó, chuyển hướng trang
+      window.location.href = "?module=user&action=buy_now";
+    });
 
-// Hàm hiển thị thông tin đơn hàng trên trang web
-function showOrder() {
-  let orderHtml = "";
-  let order = JSON.parse(localStorage.getItem('order'));
-  let hisOrder = "";
-  if(emailUserNow != ""){
-    hisOrder = order.filter((item) =>{return item.khachhang === emailUserNow});
-  }
-
-  if(hisOrder.length == 0 || emailUserNow == "") {
-      orderHtml = `<td colspan="6">Không có dữ liệu</td>`
   } else {
-    hisOrder.forEach((item) => {
-          let status = item.trangthai == 0 ? `<span class="status-no-complete">Chưa xử lý</span>` : `<span class="status-complete">Đã xử lý</span>`;
-          let date = formatDate(item.thoigiandat);
-          orderHtml += `
-          <tr>
-          <td>${item.id}</td>
-          <td>${item.tennguoinhan}</td>
-          <td>${date}</td>
-          <td>${vnd(item.tongtien)}</td>                               
-          <td>${status}</td>
-          <td class="control">
-              <span class="btn-detail detailicon" id="" onclick="detailOrder('${item.id}')"><i class="fa-light fa-circle-info"></i></span>
-          </td>
-          </tr> `;
-      });
+    advertise({
+      title: 'Error',
+      message: 'Vui lòng đăng nhập để mua hàng!',
+      type: 'error',
+      duration: 2000
+    });
+    setTimeout(function () {
+      window.location.href = "?module=auth&action=login";
+    }, 2000);
   }
-  document.querySelector("#showOrder").innerHTML = orderHtml;
-
 }
 
-// Hàm hiển thị chi tiết của một đơn hàng
-function detailOrder(id) {
-  document.querySelector(".detail-order").classList.add("open");
-  let orders = localStorage.getItem("order") ? JSON.parse(localStorage.getItem("order")) : [];
-  let products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : [];
-  // Lấy hóa đơn 
-  let order = orders.find((item) => item.id == id);
-  // Lấy chi tiết hóa đơn
-  let ctDon = getOrderDetails(id);
- 
-  let spHtml = `<div class="modal-detail-left"><div class="order-item-group">`;
-
-  let textDetailBtn = order.trangthai == 0 ? "Chưa xử lý" : "Đã xử lý";
-  ctDon.forEach((item) => {
-      let detaiSP = products.find(product => product.id == item.id);
-
-      spHtml += `<div class="order-product">
-          <div class="order-product-left">
-              <img src="${detaiSP.img}" alt="">
-              <div class="order-product-info">
-                  <h4>${detaiSP.title}</h4>
-                  <p class="order-product-category">${item.category}</p>
-                  <p class="order-product-size">Size: ${item.size}<p>
-                  <p class="order-product-quantity">SL: ${item.quantity}<p>
-              </div>
-          </div>
-          <div class="order-product-right">
-              <div class="order-product-price">
-                  <span class="order-product-current-price">${vnd(item.price)}</span>
-              </div> 
-
-              
-          </div>
-      </div>`;
-  });
-  
-  spHtml += `</div>             
-               <div class="modal-detail-bottom-left">
-               <div class="price-ship">
-                      <span class="">Phí ship:</span>
-                      <span class="">${vnd(300000)}</span>
-                 </div>
-                <div class="price-total">
-                      <span class="thanhtien">Thành tiền:</span>
-                      <span class="price">${vnd(order.tongtien)}</span>
-                   </div>
-                </div>
-              </div>`;
-  spHtml += `<div class="modal-detail-right">
-      <h4 class="detail-order-info-cust">Thông tin khách hàng</h4>
-      <ul class="detail-order-group">
-          <li class="detail-order-item">
-              <span class="detail-order-item-left"><i class="fa-thin fa-person"></i> Người nhận</span>
-             <span class="detail-order-item-right">${order.tennguoinhan}</span>
-          </li>
-
-          <li class="detail-order-item">
-              <span class="detail-order-item-left"><i class="fa-light fa-phone"></i> Số điện thoại</span>
-              <span class="detail-order-item-right">${order.sdtnhan}</span>
-          </li>
-          <li class="detail-order-item">
-              <span class="detail-order-item-left"><i class="fa-light fa-calendar-days"></i> Ngày đặt hàng</span>
-              <span class="detail-order-item-right">${formatDate(order.thoigiandat)}</span>
-          </li>
-          <li class="detail-order-item">
-              <span class="detail-order-item-left"><i class="fa-light fa-truck"></i> Hình thức giao</span>
-              <span class="detail-order-item-right">${order.hinhthucgiao}</span>
-          </li>
-
-          <li class="detail-order-item tb">
-              <span class="detail-order-item-t"><i class="fa-light fa-location-dot"></i> Địa chỉ nhận</span>
-              <p class="detail-order-item-b">${order.diachinhan}</p>
-          </li>
-          <li class="detail-order-item tb">
-              <span class="detail-order-item-t"><i class="fa-light fa-note-sticky"></i> Ghi chú</span>
-              <p class="detail-order-item-b">${order.ghichu}</p>
-          </li>
-          <li class="detail-order-item">
-              <span class="detail-order-item-left"><i class="fa-light fa-truck"></i>Trạng thái đơn hàng</span>
-              <span class="detail-order-item-right">${textDetailBtn}</span>
-          </li>
-      </ul>
-  </div>`;
-  document.querySelector(".modal-detail-order").innerHTML = spHtml;
-
-
-}
-
-document.querySelector(".filter-btn").addEventListener("click",(e) => {
-    e.preventDefault();
-    document.querySelector(".advanced-search").classList.toggle("open");
-    document.getElementById("home-title").scrollIntoView();
-})
-
-document.querySelector(".form-search-input").addEventListener("click",(e) => {
-    e.preventDefault();
-    document.getElementById("home-title").scrollIntoView();
-})
-
-function closeSearchAdvanced() {
-    document.querySelector(".advanced-search").classList.toggle("open");
-}
-
-let minPriceTemp = 0;
-let maxPriceTemp = 1000000;
-function sliderPrice() {
-    var minPrice = 0;
-    var maxPrice = 1000000;
-    
-    $("#max-price").val(vnd(maxPrice));
-    $("#min-price").val(vnd(minPrice));
-
-    
-    $("#price-range").slider({
-      range: true,
-      min: 0,
-      max: 1000000,
-      values: [minPrice, maxPrice],
-      slide: function(event, ui) {
-        $("#min-price").val(vnd(ui.values[0]));
-        $("#max-price").val(vnd(ui.values[1]));
-        minPriceTemp = ui.values[0];
-        maxPriceTemp = ui.values[1];
-
+// ````` THÔNG BÁO `````
+function advertise({
+  title = 'Success',
+  message = 'Tạo tài khoản thành công',
+  type = 'success',
+  duration = 1000
+}) {
+  const main = $('#advertise');
+  if (main.length) {
+    const advertise = $('<div class="advertise"></div>');
+    //Auto remove advertise
+    const autoRemove = setTimeout(function () {
+      advertise.remove();
+    }, duration + 1000);
+    //Remove advertise when click btn close
+    advertise.on('click', function (e) {
+      if ($(e.target).closest('.fa-regular').length) {
+        advertise.remove();
+        clearTimeout(autoRemove);
       }
     });
-}
-sliderPrice();
-
-let perPage = 12;
-let currentPage = 1;
-let totalPage = 0;
-let perProducts = [];
-var productAll = JSON.parse(localStorage.getItem('products')).filter(item => item.status == 1);
-function displayList(productAll, perPage, currentPage) {
-    let start = (currentPage - 1) * perPage;
-    let end = (currentPage - 1) * perPage + perPage;
-    let productShow = productAll.slice(start, end);
-    renderProducts(productShow);
-}
-
-function showHomeProduct(products) {
-    let productAll = products.filter(item => item.status == 1)
-    displayList(productAll, perPage, currentPage);
-    setupPagination(productAll, perPage, currentPage);
-}
-
-function setupPagination(productAll, perPage) {
-    document.querySelector('.page-nav-list').innerHTML = '';
-    let page_count = Math.ceil(productAll.length / perPage);
-    for (let i = 1; i <= page_count; i++) {
-        let li = paginationChange(i, productAll, currentPage);
-        document.querySelector('.page-nav-list').appendChild(li);
+    const colors = {
+      success: '#47d864',
+      info: '#2f86eb',
+      warning: '#ffc021',
+      error: '#ff6243'
     }
-}
-
-function paginationChange(page, productAll, currentPage) {
-    let node = document.createElement(`li`);
-    node.classList.add('page-nav-item');
-    node.innerHTML = `<a href="javascript:;">${page}</a>`;
-    if (currentPage == page) node.classList.add('active');
-    node.addEventListener('click', function () {
-        currentPage = page;
-        displayList(productAll, perPage, currentPage);
-        let t = document.querySelectorAll('.page-nav-item.active');
-        for (let i = 0; i < t.length; i++) {
-            t[i].classList.remove('active');
-        }
-        node.classList.add('active');
-        document.getElementById("home-title").scrollIntoView();
-    })
-    return node;
-}
-function showCategory(category) {
-  let productSearch = productAll.filter(value => {
-      return value.category.toString().toUpperCase().includes(category.toUpperCase());
-  })
-  let currentPageSeach = 1;
-  displayList(productSearch, perPage, currentPageSeach);
-  setupPagination(productSearch, perPage, currentPageSeach);
-  document.getElementById("home-title").scrollIntoView();
-}
-
+    const icons = {
+      success: 'fa-light fa-check',
+      info: 'fa-solid fa-circle-info',
+      warning: 'fa-solid fa-triangle-exclamation',
+      error: 'fa-solid fa-bug'
+    };
+    const color = colors[type];
+    const icon = icons[type];
+    const delay = (duration / 1000).toFixed(2);
+    advertise.addClass(`advertise--${type}`).css('animation', `slideInTop ease 0.3s, fadeOut linear 1s ${delay}s forwards`)
+      .html(`<div class="advertise__private" >
+          <div class="advertise__icon">
+              <i class="${icon}"></i>
+          </div>
+          <div class="advertise__body">
+              <h3 class="advertise__title" >${title}</h3>
+              <p class="advertise__msg">
+                  ${message}
+              </p>
+          </div>
+      </div>
+      <div class="advertise__background"style="background-color: ${color};">
+      </div>`);
+    main.append(advertise);
+  }
+} 
 
   function createProvinceList() {
   let provinces = [
@@ -652,67 +615,4 @@ function showCategory(category) {
     const tempOptionElement = optionElement.cloneNode(true);
     selectProvinceBill.appendChild(tempOptionElement);
   });
-}
-
-
- function showSectionProv(){
-     document.querySelector(".sectionProvince").classList.toggle("active");
-     
-}
-
-function advertise({
-  title = 'Success',
-  message = 'Tạo tài khoản thành công',
-  type = 'success', 
-  duration = 1000
-}){
-  const main = $('#advertise');
-  if(main){
-      const advertise = document.createElement('div');
-      //Auto remove advertise
-      const autoRemove = setTimeout(function(){
-          main.removeChild(advertise);
-      },duration+1000);
-      //Remove advertise when click btn close
-      advertise.onclick = function(e){
-          if(e.target.closest('.fa-regular')){
-              main.removeChild(advertise);
-              clearTimeout(autoRemove);
-          }
-      }
-      const colors = {
-          success: '#47d864',
-          info: '#2f86eb',
-          warning: '#ffc021',
-          error: '#ff6243'
-      }
-      const icons = {
-          success: 'fa-light fa-check',
-          info: 'fa-solid fa-circle-info',
-          warning: 'fa-solid fa-triangle-exclamation',
-          error: 'fa-solid fa-bug'
-      };
-      const color = colors[type];
-      const icon = icons[type];
-      const delay = (duration / 1000).toFixed(2);
-      advertise.classList.add('advertise', `advertise--${type}`);
-      advertise.style.animation = `slideInTop ease 0.3s, fadeOut linear 1s ${delay}s forwards`;
-      advertise.innerHTML = `<div class="advertise__private" >
-      <div class="advertise__icon">
-          <i class="${icon}"></i>
-      </div>
-      <div class="advertise__body">
-          <h3 class="advertise__title" >${title}</h3>
-          <p class="advertise__msg">
-              ${message}
-          </p>
-      </div>
-
-  </div>
-  
-  <div class="advertise__background"style="background-color: ${color};">
-  </div>`
-  // document.querySelector('.advertise__background').classList.add("initial");
-  main.appendChild(advertise);
-  }
 }

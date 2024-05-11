@@ -43,8 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fileIMG = './assets/image/'.$_FILES['up-hinh-anh']['name'];
     $fileIMGHV = './assets/image/'.$_FILES['up-hinh-anh-hvr']['name'];
 
-    move_uploaded_file($_FILES['up-hinh-anh']['tmp_name'], 'C:\xampp\htdocs\LT_Web2\templates\assets\image\\'.$_FILES['up-hinh-anh']['name']);
-    move_uploaded_file($_FILES['up-hinh-anh-hvr']['tmp_name'], 'C:\xampp\htdocs\LT_Web2\templates\assets\image\\'.$_FILES['up-hinh-anh-hvr']['name']);
+    move_uploaded_file($_FILES['up-hinh-anh']['tmp_name'], 'D:\xampp\htdocs\LT_Web2\templates\assets\image\\'.$_FILES['up-hinh-anh']['name']);
+    move_uploaded_file($_FILES['up-hinh-anh-hvr']['tmp_name'], 'D:\xampp\htdocs\LT_Web2\templates\assets\image\\'.$_FILES['up-hinh-anh-hvr']['name']);
 
     $dataInsert = [
         'typeid' => $typeID,

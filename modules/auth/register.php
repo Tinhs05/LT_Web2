@@ -1,5 +1,6 @@
 <!-- Đăng kí tài khoản -->
 <?php
+ob_start();
 if (!defined('_CODE')) {
     die('Access denied...');
 }
@@ -75,7 +76,8 @@ if (isPost()) {
             $stmt->execute();
             $row = $stmt->rowCount();
             if($row > 0) {
-                echo "<script>signup_success();</script>";
+                echo "<script>alert('Đăng khí thành công');</script>";
+                header("location: ?module=auth&action=login");
             }
         } catch (\Throwable $th) {
             throw $th;
@@ -139,9 +141,3 @@ require_once(_WEB_PATH_TEMPLATES . '/layout/header.php');
         </form>
     </div>
 </div>
-<script>
-    function signup_success() {
-        alert("Đăng ký thành công!");
-        window.location.href = "?module=auth&action=login";
-    }
-</script>

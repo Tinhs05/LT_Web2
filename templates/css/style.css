@@ -306,12 +306,10 @@ a {
     height: 35px;
     padding: 0 15px;
     color: var(--text-color);
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    background-color: #f0f0f0;
+    background-color: #bebebe;
 }
 
 .form-search-input {
@@ -2067,7 +2065,8 @@ button {
     left: 0;
     z-index: 20;
     display: none;
-    place-items: center;
+    align-items: center;
+    justify-content: center;
 
 }
 
@@ -3570,4 +3569,48 @@ button.thanh-toan.disabled {
 
 .header-middle-right-item.close {
     display: none;
+}
+
+.footter {
+    background-color: #321a1a;
+    height: auto;
+    padding: 20px 150px;
+    position: relative;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footter-left, .footter-right, .footter-center {
+    width: 22%;
+}
+
+.footter ul {
+    margin: 0;
+    padding: 0;
+}
+
+.footter li, .footter a, .footter h3 {
+    margin-bottom: 20px;
+    padding-right: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.footter-center ul {
+    list-style: none;
+    text-align: center;
+}
+
+.footter-center ul li {
+    display: inline;
+}
+
+.footter-center ul li i {
+    font-size: 25px;
+    padding: 5px;
 }
