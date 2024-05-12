@@ -9,7 +9,7 @@ require_once('./includes/connect.php');
 function get_user_info($conn, $user, $pass)
 {
     try {
-        $sql = "SELECT * FROM customer WHERE Email='" . $user . "' AND PassWord='" . $pass . "' AND Status='1'";
+        $sql = "SELECT * FROM customer WHERE Email='$user ' AND PassWord='$pass'";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $resuilt = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -31,18 +31,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $kq = get_user_info($conn, $user, $pass);
 
         if (!empty($kq)) {
-            if ($kq['UserType'] == 1) {
-                header('location: ?module=admin');
-            } else {
-                $_SESSION['user'] = $user;
-                $_SESSION['user-id'] = $kq['CustomerID'];
-                $_SESSION['user-Name'] = $kq['FullName'];
-                $_SESSION['address'] = $kq['Address'];
-                $_SESSION['PhoneNumber'] = $kq['PhoneNumber'];
-                header('location: ?module=user');
+            if ($kq['Status'] == 0) {
+                echo "<script>alert('Tài khoản của bạn đã bị khóa');</script>";
+            }else{
+                if ($kq['UserType'] == 1) {
+                    header('location: ?module=admin');
+                } else {
+                    $_SESSION['user'] = $user;
+                    $_SESSION['user-id'] = $kq['CustomerID'];
+                    $_SESSION['user-Name'] = $kq['FullName'];
+                    $_SESSION['address'] = $kq['Address'];
+                    $_SESSION['PhoneNumber'] = $kq['PhoneNumber'];
+                    header('location: ?module=user');
+                }
             }
-        } else {
-            echo "<script>alert('Tài khoản hoặc mật khẩu không đúng!');</script>";
         }
     }
 }

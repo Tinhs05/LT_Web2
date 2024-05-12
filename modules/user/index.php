@@ -53,31 +53,28 @@ require_once(_WEB_PATH_TEMPLATES . '/layout/header.php');
             <div class="container">
                 <div class="advanced-search-category">
                     <span>Phân loại </span>
-                    <select name="" id="advanced-search-category-select" onchange="searchProducts()">
-                        <option>Tất cả</option>
-                        <option>Áo Sơ mi</option>
-                        <option>Áo Thun</option>
-                        <option>Áo Khoác</option>
-                        <option>Áo polo</option>
-                        <option>Áo Hoodie</option>
-                        <option>Sale</option>
+                    <select name="" id="advanced-search-category-select">
+                        <option value="0">Tất cả</option>
+                        <option value="3">Áo Sơ mi</option>
+                        <option value="1">Áo Thun</option>
+                        <option value="5">Áo Khoác</option>
+                        <option value="4">Áo polo</option>
+                        <option value="2">Áo Hoodie</option>
                     </select>
                 </div>
                 <div class="advanced-search-price">
                     <div id="price-range">
-                        <label for="min-price">Giá :</label>
-                        <input type="text" id="min-price" readonly> - <input type="text" id="max-price" readonly>
+                        <label for="min-price">Giá từ :</label>
+                        <input type="number" id="min-price" value="">
+                        <input type="number" id="max-price" value="">
                     </div>
-                    <div>
-                        <button id="filter-price" onclick="filterProductPrice()"><i class="fa-light fa-filter-circle-dollar"></i></button>
-                    </div>
+
                 </div>
 
                 <div class="advanced-search-control">
-                    <button id="sort-ascending" onclick="searchProducts(1)"><i class="fa-regular fa-arrow-up-short-wide"></i></button>
-                    <button id="sort-descending" onclick="searchProducts(2)"><i class="fa-regular fa-arrow-down-wide-short"></i></button>
-                    <button id="reset-search" onclick="searchProducts(0)"><i class="fa-light fa-arrow-rotate-right"></i></button>
-                    <button onclick="closeSearchAdvanced()"><i class="fa-light fa-xmark"></i></button>
+                    <div>
+                        <button id="filter-price" onclick="filterProductPrice()"><i class="fa-light fa-filter-circle-dollar"></i></button>
+                    </div>
                 </div>
             </div>
         </div>

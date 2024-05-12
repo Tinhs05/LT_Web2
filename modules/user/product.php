@@ -1,6 +1,6 @@
 <?php
 try {
-    $sql = 'Select * from product order by ProductID desc';
+    $sql = 'Select * from product where Status = 1 order by ProductID desc';
     $data = [];
     $stmt = query($sql, $data, true);
     $row = $stmt->setFetchMode(PDO::FETCH_ASSOC);

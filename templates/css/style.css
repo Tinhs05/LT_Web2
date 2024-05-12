@@ -377,7 +377,7 @@ a {
 }
 
 #price-range {
-    width: 40%;
+    width: 80%;
     margin: 0 20px 0 20px;
     padding: 0px;
     height: 7px;
@@ -412,13 +412,29 @@ a {
 }
 
 #min-price {
-    margin-top: 15px;
+    height: 30px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0 10px;
+    background-color: var(--lighter-gray);
+    border-right: 10px solid #f0f0f0;
+    cursor: pointer;
+    /* margin-top: 10px; */
     width: 95px;
 }
 
 #max-price {
+    height: 30px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0 10px;
+    background-color: var(--lighter-gray);
+    border-right: 10px solid #f0f0f0;
+    cursor: pointer;
     width: 95px;
-    margin-top: 15px;
+    /* margin-top: 10px; */
 }
 
 #filter-price {
@@ -426,7 +442,7 @@ a {
     font-size: 15px;
     border-radius: 5px;
     padding: 3px;
-    margin-left: 10px;
+    margin-left: 30px;
     margin-top: 10px;
     align-items: center;
     text-align: center;
@@ -1148,14 +1164,15 @@ button {
 }
 
 /* <!-- Trung tâm tài khoản --> */
-.account-centre-container{
+.account-centre-container {
     position: fixed;
     top: 0px;
     left: 0px;
     height: 100%;
     width: 100%;
 }
-.navbar-acc-centre{
+
+.navbar-acc-centre {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -1169,7 +1186,7 @@ button {
     flex-wrap: nowrap;
 }
 
-.title-acc-centre{
+.title-acc-centre {
     display: flex;
     height: 40px;
     width: 100%;
@@ -1182,7 +1199,8 @@ button {
     justify-content: space-around;
     align-items: flex-start;
 }
-.menu-items-acc-centre{
+
+.menu-items-acc-centre {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1193,11 +1211,12 @@ button {
     color: #000;
     cursor: pointer;
 }
-.menu-items-acc-centre:last-child{
+
+.menu-items-acc-centre:last-child {
     border-top: #795c5c 1px solid;
 }
 
-.menu-items-acc-centre:hover{
+.menu-items-acc-centre:hover {
     background-color: #8be468;
 }
 
@@ -1205,11 +1224,11 @@ button {
     background-color: #f08080;
 }
 
-.menu-items-acc-centre .active{
+.menu-items-acc-centre .active {
     background-color: #0b7136;
 }
 
-.menu-items-acc-centre i{
+.menu-items-acc-centre i {
     padding: 0 20px;
 }
 
@@ -1223,7 +1242,7 @@ button {
     z-index: 1;
 }
 
-.order-acc-centre{
+.order-acc-centre {
     position: absolute;
     display: flex;
     flex: 1;
@@ -1236,14 +1255,14 @@ button {
     overflow: auto;
 }
 
-.order-acc-centre h1{
+.order-acc-centre h1 {
     display: flex;
     height: 10%;
     align-items: center;
     justify-content: center;
 }
 
-.order-acc-centre-status{
+.order-acc-centre-status {
     height: 20%;
     width: 100%;
     display: flex;
@@ -1251,7 +1270,7 @@ button {
     align-items: center;
 }
 
-.order-acc-centre-status i{
+.order-acc-centre-status i {
     position: relative;
     display: flex;
     align-items: center;
@@ -1259,7 +1278,8 @@ button {
     font-size: 50px;
     cursor: pointer;
 }
-.num-order-status{
+
+.num-order-status {
     position: absolute;
     top: -10px;
     right: 5px;
@@ -1274,40 +1294,44 @@ button {
     align-items: center;
 }
 
-.list-order-nows{
+.list-order-nows {
     width: 100%;
     height: 70%;
 }
-.order-bill{
+
+.order-bill {
     position: relative;
     display: flex;
     height: 120px;
     width: 80%;
-    margin: 20px 100px ;
+    margin: 20px 100px;
     background-color: #c7c5c554;
     border-radius: 5px;
 }
-.order-bill img{
+
+.order-bill img {
     max-width: 120px;
     height: 120px;
 }
-.order-bill .data{
+
+.order-bill .data {
     display: flex;
     width: 80%;
 }
-.order-bill .data span{
+
+.order-bill .data span {
     display: flex;
     margin: 10px;
     font-size: 18px;
 }
 
-.order-bill .info-pod{
+.order-bill .info-pod {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.order-bill .status{
+.order-bill .status {
     position: relative;
     display: flex;
     width: 25%;
@@ -1315,7 +1339,7 @@ button {
     align-items: center;
 }
 
-.order-bill .status div{
+.order-bill .status div {
     position: absolute;
     display: flex;
     color: white;
@@ -1327,7 +1351,8 @@ button {
     border-radius: 7px;
     cursor: default;
 }
-.cancel-order{
+
+.cancel-order {
     position: relative;
     display: flex;
     width: 8%;
@@ -1336,15 +1361,16 @@ button {
     color: #000000b0;
     cursor: pointer;
 }
-.cancel-order:hover{
+
+.cancel-order:hover {
     color: #ff3333;
     text-shadow: 1px 1px 5px #000000b0;
 }
 
-.detail-order-status-modal{
+.detail-order-status-modal {
     position: fixed;
     display: flex;
-    top: 0 ;
+    top: 0;
     left: 0;
     height: 100vh;
     width: 100%;
@@ -1356,7 +1382,7 @@ button {
 }
 
 .detail-order-status-modal .container {
-    position: relative; 
+    position: relative;
     display: flex;
     height: 80%;
     width: 60%;
@@ -1365,7 +1391,7 @@ button {
     justify-content: center;
 }
 
-.btn-close-detail-order-status{
+.btn-close-detail-order-status {
     position: absolute;
     right: 0;
     top: 0;
@@ -1377,7 +1403,7 @@ button {
     cursor: pointer;
 }
 
-.detail-order-status-modal .content-left{
+.detail-order-status-modal .content-left {
     position: absolute;
     top: 15%;
     left: 0;
@@ -1386,7 +1412,7 @@ button {
     background-color: #ecf0f1;
 }
 
-.detail-order-status-modal .content-right{
+.detail-order-status-modal .content-right {
     position: absolute;
     top: 15%;
     left: 60%;
@@ -1395,11 +1421,12 @@ button {
     background-color: #ecf0f1;
     border-left: 1px solid #26211ab0;
 }
-.detail-order-status-modal .info-receiver{
+
+.detail-order-status-modal .info-receiver {
     padding: 20px 0 10px 10px;
 }
 
-.order-bill .show-detail-pod{
+.order-bill .show-detail-pod {
     position: relative;
     display: flex;
     height: 80%;
@@ -1412,12 +1439,13 @@ button {
     justify-content: center;
     cursor: pointer;
 }
+
 .show-detail-pod:hover {
     color: #176688ca;
-    text-shadow: 0  0 5px #ddd8d8b0;
+    text-shadow: 0 0 5px #ddd8d8b0;
 }
 
-.acc-info{
+.acc-info {
     position: absolute;
     display: flex;
     height: 100%;
@@ -1425,7 +1453,7 @@ button {
     justify-content: center;
 }
 
-.acc-info form{
+.acc-info form {
     position: absolute;
     top: 20%;
     width: 80%;
@@ -1464,7 +1492,7 @@ button {
     background: #ffffff;
 }
 
-.acc-center-data input[type=password].input{
+.acc-center-data input[type=password].input {
     padding: 16px 15px;
     font-size: 1rem;
     border: 2px #377294 solid;
@@ -1534,7 +1562,7 @@ button {
     opacity: 0.5;
 }
 
-.change-pass{
+.change-pass {
     position: relative;
     display: flex;
     height: 70%;
@@ -1545,11 +1573,12 @@ button {
     align-items: center;
     justify-content: center;
 }
-.change-pass .acc-center-data{
+
+.change-pass .acc-center-data {
     margin: 5px;
 }
 
-.change-pass .btn-change-pass{
+.change-pass .btn-change-pass {
     top: 0;
     left: 10%;
     margin: 30px;
@@ -1559,15 +1588,17 @@ button {
     background-image: linear-gradient(135deg, #79ffb5 0%, #43d233 100%);
     box-shadow: 0 20px 30px -6px rgba(60, 234, 86, 0.5);
 }
-.change-pass .btn-change-pass:hover{
+
+.change-pass .btn-change-pass:hover {
     transform: translateY(3px);
     box-shadow: none;
 }
+
 .change-pass .btn-change-pass:active {
     opacity: 0.5;
 }
 
-#btn-close-acc-center{
+#btn-close-acc-center {
     position: absolute;
     right: 0;
     top: 0;
@@ -1578,6 +1609,7 @@ button {
     text-shadow: 1px 0 5px rgba(178, 2, 2, 0.895);
     cursor: pointer;
 }
+
 /* Hết: Trung tâm tài khoản */
 
 
@@ -3287,7 +3319,8 @@ button.thanh-toan.disabled {
     height: 20px;
 
 }
-.info-nhan-hang .form-message{
+
+.info-nhan-hang .form-message {
     color: red;
     font-size: 14px;
 }
@@ -3510,7 +3543,7 @@ button.thanh-toan.disabled {
     color: #629050;
 }
 
-.payment-method{
+.payment-method {
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -3583,7 +3616,9 @@ button.thanh-toan.disabled {
     justify-content: space-between;
 }
 
-.footter-left, .footter-right, .footter-center {
+.footter-left,
+.footter-right,
+.footter-center {
     width: 22%;
 }
 
@@ -3592,7 +3627,9 @@ button.thanh-toan.disabled {
     padding: 0;
 }
 
-.footter li, .footter a, .footter h3 {
+.footter li,
+.footter a,
+.footter h3 {
     margin-bottom: 20px;
     padding-right: 20px;
     color: #ffffff;
